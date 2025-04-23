@@ -21,12 +21,12 @@ export const addDictMutationFn = async (data: AddDictParams) => {
   });
 };
 
-// 修改新闻
+// 修改字典
 export const updateDictMutationFn = async ({
   id,
   ...data
 }: UpdateDictParams) => {
-  return await requestJson<null>(`/admin/user/${id}`, {
+  return await requestJson<null>(`/admin/dict/${id}`, {
     method: 'PUT',
     body: JSON.stringify(data),
   });
