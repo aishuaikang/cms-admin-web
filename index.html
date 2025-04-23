@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>加载中...</title>
+    <style>
+      #mask_layer {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #fff;
+        z-index: 9999;
+      }
+
+      #mask_layer .mask-content {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* 监听设备宽度 小于 1024 */
+      @media screen and (max-width: 1024px) {
+        #mask_layer {
+          display: block;
+        }
+      }
+    </style>
+
+    <!-- <script>
+        window.onload = () => document.title = "%VITE_APP_TITLE%"
+    </script> -->
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <div id="mask_layer">
+      <div
+        style="
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        "
+      >
+        请使用PC端打开本页面，该页面暂不支持移动端分辨率。
+      </div>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

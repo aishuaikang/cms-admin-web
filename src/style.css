@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* // fix Tailwind CSS border styles,form Tailwind CSS's preflight */
+/* *,
+::before,
+::after {
+    box-sizing: border-box;
+    border-width: 0;
+    border-style: solid;
+    border-color: theme('borderColor.DEFAULT', currentColor);
+}
+
+::before,
+::after {
+    --tw-content: '';
+} */
+
+/* 封装 */
+
+/* .autoComplete {
+    @apply bg-black/40 rounded-md;
+}
+.autoComplete input {
+    @apply text-center;
+} */
+
+/* html,
+body,
+#root {
+    height: 100%;
+    overscroll-behavior: none;
+    overflow: hidden;
+} */
+
+/* .react-grid-item > .react-resizable-handle::after {
+    width: 9px !important;
+    height: 9px !important;
+    border-color: #979797 !important;
+    border-bottom-width: 3px !important;
+    border-right-width: 3px !important;
+}
+
+.react-resizable-handle {
+    opacity: 0;
+}
+
+.react-grid-item:hover .react-resizable-handle {
+    opacity: 1;
+}
+
+.os-scrollbar-handle {
+    cursor: pointer;
+}
+
+#progressScrollbar > div.os-padding > div.os-viewport {
+    scroll-snap-type: y mandatory;
+    scroll-snap-type: mandatory;
+    -ms-scroll-snap-type: mandatory;
+    -moz-scroll-snap-type: mandatory;
+    -webkit-scroll-snap-type: mandatory;
+    -webkit-scroll-snap-destination: 0% 0%;
+    -webkit-overflow-scrolling: touch;
+} */
+/* 
+.ant-table-body {
+  @apply transition-all;
+} */
+
+details.docx-thumbnails {
+  position: relative;
+  background-color: rgb(101, 101, 101);
+  border-right: 1px solid black;
+  min-width: 1rem;
+}
+
+details.docx-thumbnails[open] {
+  min-width: 120px;
+}
+
+details.docx-thumbnails summary {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 1rem;
+  padding-left: 3px;
+}
+
+details.docx-thumbnails summary:hover {
+  background-color: rgb(0 0 0 / 50%);
+}
+
+details.docx-thumbnails summary::marker {
+  color: white;
+}
+
+.docx-thumbnails:empty {
+  display: none;
+}
+
+.docx-thumbnails-container {
+  height: 100%;
+  overflow: auto;
+  scrollbar-gutter: stable both-edges;
+  padding: 0.25rem;
+}
+
+.docx-thumbnail-item {
+  display: flex;
+  background-color: white;
+  text-decoration: none;
+  color: black;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  aspect-ratio: 6 / 8;
+  width: 100px;
+  box-shadow: 0 0 10px rgb(0 0 0 / 50%);
+  margin: 1rem;
+}

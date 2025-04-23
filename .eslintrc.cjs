@@ -1,0 +1,30 @@
+module.exports = {
+  env: { browser: true, es2020: true, commonjs: true, amd: true },
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react-hooks/recommended',
+    'prettier',
+    'plugin:@tanstack/eslint-plugin-router/recommended',
+    'plugin:@tanstack/query/recommended',
+  ],
+  parser: '@typescript-eslint/parser',
+  parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
+  plugins: ['react-refresh'],
+  rules: {
+    'react-refresh/only-export-components': 'off',
+
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
+    'no-param-reassign': 'off',
+    radix: 'off',
+    'no-shadow': 'off',
+    'react/jsx-no-bind': 'off',
+    'no-nested-ternary': 'off',
+    'react/no-array-index-key': 'off',
+    'react/forbid-prop-types': 'off',
+    'no-bitwise': 'off',
+    'react/jsx-boolean-value': 'off',
+    'react/prop-types': 'off',
+  },
+};
