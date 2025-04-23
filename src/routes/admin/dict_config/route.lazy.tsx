@@ -38,7 +38,7 @@ import ErrorComponent from '@components/ErrorComponent';
 import LoadingComponent from '@components/LoadingComponent';
 
 export const Route = createLazyFileRoute('/admin/dict_config')({
-  component: MenuConfig,
+  component: DictConfig,
 });
 
 export type DictTreeItem = Dict & {
@@ -222,7 +222,7 @@ function RecursiveMenuRows({
   );
 }
 
-function MenuConfig() {
+function DictConfig() {
   const ctx = useRouteContext({ from: AdminDictConfigRoute.to });
 
   const { isError, error, data, isFetching } = useQuery(

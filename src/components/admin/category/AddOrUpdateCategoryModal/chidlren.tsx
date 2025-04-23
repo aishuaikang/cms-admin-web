@@ -1,15 +1,10 @@
 import {
-  addArticleMutationFn,
-  ARTICLE_LIST_QUERY_KEY,
-  updateArticleMutationFn,
-} from '@/apis/articles';
-import {
-  Article,
-  ArticleChannel,
-  ArticleOperate,
-  ArticleType,
-} from '@/apis/articles/types';
-import { Route as AdminIndustryArticlesRoute } from '@/routes/admin/industry_articles/route';
+  addCategoryMutationFn,
+  CATEGORY_LIST_QUERY_KEY,
+  updateCategoryMutationFn,
+} from '@/apis/category';
+import { Category } from '@/apis/category/types';
+import { Route as AdminCategoryRoute } from '@/routes/admin/category/route';
 import {
   Box,
   Button,
@@ -25,72 +20,48 @@ import { useRouteContext } from '@tanstack/react-router';
 import { useMemoizedFn } from 'ahooks';
 import { z } from 'zod';
 
-export interface AddOrUpdateArticleModalChildrenProps {
+export interface AddOrUpdateCategoryModalChildrenProps {
   onClose: () => void;
-  currentArticle?: Article;
+  currentCategory?: Category;
 }
 
 const rules = z.object({
-  title: z
+  name: z
     .string()
     .trim()
-    .nonempty('标题不能为空')
-    .min(2, '标题不能少于2个字符')
-    .max(15, '文章名称不能超过15个字符')
-    .regex(/^[\u4e00-\u9fa5]+$/, '文章名称只能包含中文'),
+    .nonempty('名称不能为空')
+    .min(2, '名称不能少于2个字符')
+    .max(15, '名称不能超过15个字符'),
   description: z.string().trim().max(512, '接口权限不能超过512个字符'),
-  url: z
-    .string()
-    .trim()
-    .nonempty('链接不能为空')
-    .min(2, '链接不能少于2个字符')
-    .max(150, '链接不能超过150个字符')
-    .regex(/^(http|https):\/\/[^\s]+$/, '链接格式不正确'),
 });
 
-// type FormValues = z.infer<typeof rules>;
-
-const AddOrUpdateArticleModalChildren: React.FC<
-  AddOrUpdateArticleModalChildrenProps
-> = ({ onClose, currentArticle }) => {
-  const ctx = useRouteContext({ from: AdminIndustryArticlesRoute.to });
+const AddOrUpdateCategoryModalChildren: React.FC<
+  AddOrUpdateCategoryModalChildrenProps
+> = ({ onClose, currentCategory }) => {
+  const ctx = useRouteContext({ from: AdminCategoryRoute.to });
 
   const defaultValues = useMemoizedFn(() => {
-    if (!currentArticle)
+    if (!currentCategory)
       return {
-        title: '',
+        name: '',
         description: '',
-        // image: undefined,
-        url: '',
       };
     return {
-      title: currentArticle.title,
-      description: currentArticle.description,
-      //   image: currentArticle.image,
-      url: currentArticle.url,
+      name: currentCategory.name,
+      description: currentCategory.description,
     };
   });
 
   const formApi = useForm({
     defaultValues: defaultValues(),
     onSubmit: async ({ value }) => {
-      if (currentArticle) {
-        await updateArticleMutation({
-          articleId: currentArticle.id,
-          data: {
-            ...value,
-            type: ArticleType.外部链接,
-            channel: ArticleChannel.行业新闻,
-            operate: ArticleOperate.保存发布,
-          },
+      if (currentCategory) {
+        await updateCategoryMutation({
+          id: currentCategory.id,
+          ...value,
         });
       } else {
-        await addArticleMutation({
-          ...value,
-          type: ArticleType.外部链接,
-          channel: ArticleChannel.行业新闻,
-          operate: ArticleOperate.保存发布,
-        });
+        await addCategoryMutation(value);
       }
     },
     validators: {
@@ -98,9 +69,9 @@ const AddOrUpdateArticleModalChildren: React.FC<
     },
   });
 
-  const { mutateAsync: addArticleMutation, isPending: isAddArticlePending } =
+  const { mutateAsync: addCategoryMutation, isPending: isAddCategoryPending } =
     useMutation({
-      mutationFn: addArticleMutationFn,
+      mutationFn: addCategoryMutationFn,
       onMutate: () => {
         return notifications.show({
           loading: true,
@@ -123,7 +94,7 @@ const AddOrUpdateArticleModalChildren: React.FC<
         onClose();
 
         ctx.queryClient.invalidateQueries({
-          queryKey: [ARTICLE_LIST_QUERY_KEY],
+          queryKey: [CATEGORY_LIST_QUERY_KEY],
         });
       },
       onError: (error, _var, context) => {
@@ -139,10 +110,10 @@ const AddOrUpdateArticleModalChildren: React.FC<
     });
 
   const {
-    mutateAsync: updateArticleMutation,
-    isPending: isUpdateArticlePending,
+    mutateAsync: updateCategoryMutation,
+    isPending: isUpdateCategoryPending,
   } = useMutation({
-    mutationFn: updateArticleMutationFn,
+    mutationFn: updateCategoryMutationFn,
     onMutate: () => {
       return notifications.show({
         loading: true,
@@ -165,7 +136,7 @@ const AddOrUpdateArticleModalChildren: React.FC<
       onClose();
 
       ctx.queryClient.invalidateQueries({
-        queryKey: [ARTICLE_LIST_QUERY_KEY],
+        queryKey: [CATEGORY_LIST_QUERY_KEY],
       });
     },
     onError: (error, _var, context) => {
@@ -183,7 +154,7 @@ const AddOrUpdateArticleModalChildren: React.FC<
   return (
     <Box pos="relative">
       <LoadingOverlay
-        visible={isAddArticlePending || isUpdateArticlePending}
+        visible={isAddCategoryPending || isUpdateCategoryPending}
         zIndex={1000}
         overlayProps={{ radius: 'sm', blur: 2 }}
       />
@@ -196,30 +167,8 @@ const AddOrUpdateArticleModalChildren: React.FC<
         }}
         onReset={() => formApi.reset()}
       >
-        {/* <formApi.Field
-          name="type"
-          children={({ name, state, handleChange, handleBlur }) => {
-            return (
-              <Radio.Group
-                withAsterisk
-                label="文章类型"
-                name={name}
-                value={state.value}
-                onBlur={handleBlur}
-                onChange={(e) => handleChange(e as 'page' | 'button')}
-                error={state.meta.errors[0]?.message}
-                description="用于在文章中区分展示不同类型的图标"
-              >
-                <Group mt="xs">
-                  <Radio value="page" label="页面" />
-                  <Radio value="button" label="按钮" />
-                </Group>
-              </Radio.Group>
-            );
-          }}
-        /> */}
         <formApi.Field
-          name="title"
+          name="name"
           children={({ name, state, handleChange, handleBlur }) => {
             return (
               <TextInput
@@ -270,51 +219,6 @@ const AddOrUpdateArticleModalChildren: React.FC<
           )}
         />
 
-        {/* <formApi.Field
-          name="image"
-          children={({ name, state, handleChange, handleBlur }) => (
-            <FileInput
-              withAsterisk
-              label="摘要"
-              variant="filled"
-              name={name}
-              value={state.value}
-              onBlur={handleBlur}
-              onChange={(e) => handleChange(e.target.value)}
-              error={state.meta.errors[0]?.message}
-              rightSection={
-                state.value !== '' ? (
-                  <Input.ClearButton onClick={() => handleChange('')} />
-                ) : undefined
-              }
-              rightSectionPointerEvents="auto"
-              placeholder="新闻摘要"
-              description="摘要只能包含中文"
-            />
-          )}
-        /> */}
-        <formApi.Field
-          name="url"
-          children={({ name, state, handleChange, handleBlur }) => (
-            <TextInput
-              withAsterisk
-              label="外链"
-              variant="filled"
-              name={name}
-              value={state.value}
-              onBlur={handleBlur}
-              onChange={(e) => handleChange(e.target.value)}
-              error={state.meta.errors[0]?.message}
-              rightSection={
-                state.value !== '' ? (
-                  <Input.ClearButton onClick={() => handleChange('')} />
-                ) : undefined
-              }
-              rightSectionPointerEvents="auto"
-              placeholder="http://shanxi.chinatax.gov.cn/web/detail/sx-11400-589-1801419"
-            />
-          )}
-        />
         <Box className="flex flex-row-reverse gap-4">
           <formApi.Subscribe
             selector={(state) => [state.canSubmit, state.isSubmitting]}
@@ -340,4 +244,4 @@ const AddOrUpdateArticleModalChildren: React.FC<
   );
 };
 
-export default AddOrUpdateArticleModalChildren;
+export default AddOrUpdateCategoryModalChildren;

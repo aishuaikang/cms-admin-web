@@ -198,7 +198,7 @@ const AddOrUpdateDictModalChildren: React.FC<
             return (
               <TextInput
                 withAsterisk
-                label="字典名称"
+                label="名称"
                 variant="filled"
                 name={name}
                 value={state.value}
@@ -223,7 +223,7 @@ const AddOrUpdateDictModalChildren: React.FC<
             return (
               <TextInput
                 withAsterisk
-                label="字典Code"
+                label="Code"
                 variant="filled"
                 name={name}
                 value={state.value}
@@ -246,7 +246,7 @@ const AddOrUpdateDictModalChildren: React.FC<
           name="extra"
           children={({ name, state, handleChange, handleBlur }) => (
             <Textarea
-              label="字典Extra"
+              label="Extra"
               variant="filled"
               name={name}
               value={state.value}
@@ -272,7 +272,7 @@ const AddOrUpdateDictModalChildren: React.FC<
           name="description"
           children={({ name, state, handleChange, handleBlur }) => (
             <Textarea
-              label="字典描述"
+              label="描述"
               variant="filled"
               name={name}
               value={state.value}

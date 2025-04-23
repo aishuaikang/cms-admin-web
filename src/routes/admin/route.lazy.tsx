@@ -11,9 +11,8 @@ import {
 import {
   IconBook2,
   IconBuildingFactory2,
+  IconCategory,
   IconHomeQuestion,
-  IconLayersIntersect,
-  IconPolygon,
   IconUsers,
 } from '@tabler/icons-react';
 import {
@@ -23,11 +22,10 @@ import {
   useRouterState,
 } from '@tanstack/react-router';
 import { useCreation } from 'ahooks';
+import { Route as AdminCategoryRoute } from './category/route';
 import { Route as AdminDictConfigRoute } from './dict_config/route';
 import { Route as AdminIndexRoute } from './index/route';
 import { Route as AdminIndustryArticlesRoute } from './industry_articles/route';
-import { Route as AdminInternalArticlesRoute } from './internal_articles/route';
-import { Route as AdminPolicyRegulationsRoute } from './policy_regulations/route';
 import { Route as AdminUsersRoute } from './users/route';
 
 export const Route = createLazyFileRoute('/admin')({
@@ -88,7 +86,17 @@ function Admin() {
               />
             )}
           </Link>
-          <Divider my="xs" label="新闻管理" labelPosition="center" />
+          <Divider my="xs" label="CMS管理" labelPosition="center" />
+          <Link to={AdminCategoryRoute.to}>
+            {({ isActive }) => (
+              <NavLink
+                component="span"
+                label="分类管理"
+                leftSection={<IconCategory size={16} stroke={1.5} />}
+                active={isActive}
+              />
+            )}
+          </Link>
           <Link to={AdminIndustryArticlesRoute.to}>
             {({ isActive }) => (
               <NavLink
@@ -99,26 +107,7 @@ function Admin() {
               />
             )}
           </Link>
-          <Link to={AdminInternalArticlesRoute.to}>
-            {({ isActive }) => (
-              <NavLink
-                component="span"
-                label="内部新闻"
-                leftSection={<IconLayersIntersect size={16} stroke={1.5} />}
-                active={isActive}
-              />
-            )}
-          </Link>
-          <Link to={AdminPolicyRegulationsRoute.to}>
-            {({ isActive }) => (
-              <NavLink
-                component="span"
-                label="政策法规"
-                leftSection={<IconPolygon size={16} stroke={1.5} />}
-                active={isActive}
-              />
-            )}
-          </Link>
+
           {/* <Divider my="xs" label="系统维护" labelPosition="center" />
           <Link to={AdminDictConfigRoute.to}>
             {({ isActive }) => (
