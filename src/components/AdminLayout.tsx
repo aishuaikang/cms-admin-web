@@ -20,12 +20,12 @@ import {
 import { Route as AdminRoute } from '@routes/admin/route';
 import { Route as IndexRoute } from '@routes/index/route';
 import {
+  IconArticle,
   IconChevronDown,
   IconHome,
   IconLogout,
   IconMoonStars,
   IconSettings,
-  IconShieldCheckeredFilled,
   IconSun,
 } from '@tabler/icons-react';
 import { Link, useNavigate } from '@tanstack/react-router';
@@ -78,7 +78,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
     >
       <AppShell.Header className="flex items-center justify-between px-4 gap-4">
         <Box className="w-auto h-full flex items-center gap-2">
-          <IconShieldCheckeredFilled size={30} />
+          <IconArticle size={30} />
           <Title order={1} size={'h3'}>
             {import.meta.env.VITE_APP_TITLE}
           </Title>

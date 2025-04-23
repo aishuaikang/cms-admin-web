@@ -4,7 +4,7 @@ import {
   isShowLoginModalStore,
   setIsShowLoginModalStore,
 } from '@store/isShowLoginModalStore';
-import { IconShieldCheckeredFilled } from '@tabler/icons-react';
+import { IconArticle } from '@tabler/icons-react';
 import { useStore } from '@tanstack/react-store';
 import CommonModal from '@components/CommonModal';
 import LoginModalChildren from './children';
@@ -36,7 +36,7 @@ const LoginModal = forwardRef<LoginModalRef>((_, ref) => {
       closeOnClickOutside={false}
       title={
         <Group>
-          <IconShieldCheckeredFilled size={24} />
+          <IconArticle size={24} />
           <Title order={4}>用户登录</Title>
         </Group>
       }
