@@ -13,6 +13,7 @@ import {
   IconBuildingFactory2,
   IconCategory,
   IconHomeQuestion,
+  IconTag,
   IconUsers,
 } from '@tabler/icons-react';
 import {
@@ -26,6 +27,7 @@ import { Route as AdminCategoryRoute } from './category/route';
 import { Route as AdminDictConfigRoute } from './dict_config/route';
 import { Route as AdminIndexRoute } from './index/route';
 import { Route as AdminIndustryArticlesRoute } from './industry_articles/route';
+import { Route as AdminTagRoute } from './tag/route';
 import { Route as AdminUsersRoute } from './users/route';
 
 export const Route = createLazyFileRoute('/admin')({
@@ -93,6 +95,16 @@ function Admin() {
                 component="span"
                 label="分类管理"
                 leftSection={<IconCategory size={16} stroke={1.5} />}
+                active={isActive}
+              />
+            )}
+          </Link>
+          <Link to={AdminTagRoute.to}>
+            {({ isActive }) => (
+              <NavLink
+                component="span"
+                label="标签管理"
+                leftSection={<IconTag size={16} stroke={1.5} />}
                 active={isActive}
               />
             )}

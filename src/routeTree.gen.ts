@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as AdminRouteImport } from './routes/admin/route'
 import { Route as IndexRouteImport } from './routes/index/route'
 import { Route as AdminUsersRouteImport } from './routes/admin/users/route'
+import { Route as AdminTagRouteImport } from './routes/admin/tag/route'
 import { Route as AdminIndustryarticlesRouteImport } from './routes/admin/industry_articles/route'
 import { Route as AdminDictconfigRouteImport } from './routes/admin/dict_config/route'
 import { Route as AdminCategoryRouteImport } from './routes/admin/category/route'
@@ -39,6 +40,14 @@ const AdminUsersRouteRoute = AdminUsersRouteImport.update({
   getParentRoute: () => AdminRouteRoute,
 } as any).lazy(() =>
   import('./routes/admin/users/route.lazy').then((d) => d.Route),
+)
+
+const AdminTagRouteRoute = AdminTagRouteImport.update({
+  id: '/tag',
+  path: '/tag',
+  getParentRoute: () => AdminRouteRoute,
+} as any).lazy(() =>
+  import('./routes/admin/tag/route.lazy').then((d) => d.Route),
 )
 
 const AdminIndustryarticlesRouteRoute = AdminIndustryarticlesRouteImport.update(
@@ -121,6 +130,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndustryarticlesRouteImport
       parentRoute: typeof AdminRouteImport
     }
+    '/admin/tag': {
+      id: '/admin/tag'
+      path: '/tag'
+      fullPath: '/admin/tag'
+      preLoaderRoute: typeof AdminTagRouteImport
+      parentRoute: typeof AdminRouteImport
+    }
     '/admin/users': {
       id: '/admin/users'
       path: '/users'
@@ -138,6 +154,7 @@ interface AdminRouteRouteChildren {
   AdminCategoryRouteRoute: typeof AdminCategoryRouteRoute
   AdminDictconfigRouteRoute: typeof AdminDictconfigRouteRoute
   AdminIndustryarticlesRouteRoute: typeof AdminIndustryarticlesRouteRoute
+  AdminTagRouteRoute: typeof AdminTagRouteRoute
   AdminUsersRouteRoute: typeof AdminUsersRouteRoute
 }
 
@@ -146,6 +163,7 @@ const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminCategoryRouteRoute: AdminCategoryRouteRoute,
   AdminDictconfigRouteRoute: AdminDictconfigRouteRoute,
   AdminIndustryarticlesRouteRoute: AdminIndustryarticlesRouteRoute,
+  AdminTagRouteRoute: AdminTagRouteRoute,
   AdminUsersRouteRoute: AdminUsersRouteRoute,
 }
 
@@ -160,6 +178,7 @@ export interface FileRoutesByFullPath {
   '/admin/category': typeof AdminCategoryRouteRoute
   '/admin/dict_config': typeof AdminDictconfigRouteRoute
   '/admin/industry_articles': typeof AdminIndustryarticlesRouteRoute
+  '/admin/tag': typeof AdminTagRouteRoute
   '/admin/users': typeof AdminUsersRouteRoute
 }
 
@@ -169,6 +188,7 @@ export interface FileRoutesByTo {
   '/admin/category': typeof AdminCategoryRouteRoute
   '/admin/dict_config': typeof AdminDictconfigRouteRoute
   '/admin/industry_articles': typeof AdminIndustryarticlesRouteRoute
+  '/admin/tag': typeof AdminTagRouteRoute
   '/admin/users': typeof AdminUsersRouteRoute
 }
 
@@ -180,6 +200,7 @@ export interface FileRoutesById {
   '/admin/category': typeof AdminCategoryRouteRoute
   '/admin/dict_config': typeof AdminDictconfigRouteRoute
   '/admin/industry_articles': typeof AdminIndustryarticlesRouteRoute
+  '/admin/tag': typeof AdminTagRouteRoute
   '/admin/users': typeof AdminUsersRouteRoute
 }
 
@@ -192,6 +213,7 @@ export interface FileRouteTypes {
     | '/admin/category'
     | '/admin/dict_config'
     | '/admin/industry_articles'
+    | '/admin/tag'
     | '/admin/users'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -200,6 +222,7 @@ export interface FileRouteTypes {
     | '/admin/category'
     | '/admin/dict_config'
     | '/admin/industry_articles'
+    | '/admin/tag'
     | '/admin/users'
   id:
     | '__root__'
@@ -209,6 +232,7 @@ export interface FileRouteTypes {
     | '/admin/category'
     | '/admin/dict_config'
     | '/admin/industry_articles'
+    | '/admin/tag'
     | '/admin/users'
   fileRoutesById: FileRoutesById
 }
@@ -247,6 +271,7 @@ export const routeTree = rootRoute
         "/admin/category",
         "/admin/dict_config",
         "/admin/industry_articles",
+        "/admin/tag",
         "/admin/users"
       ]
     },
@@ -264,6 +289,10 @@ export const routeTree = rootRoute
     },
     "/admin/industry_articles": {
       "filePath": "admin/industry_articles/route.tsx",
+      "parent": "/admin"
+    },
+    "/admin/tag": {
+      "filePath": "admin/tag/route.tsx",
       "parent": "/admin"
     },
     "/admin/users": {

@@ -1,10 +1,10 @@
 import {
-  addCategoryMutationFn,
-  CATEGORY_LIST_QUERY_KEY,
-  updateCategoryMutationFn,
-} from '@/apis/category';
-import { Category } from '@/apis/category/types';
-import { Route as AdminCategoryRoute } from '@/routes/admin/category/route';
+  addTagMutationFn,
+  TAG_LIST_QUERY_KEY,
+  updateTagMutationFn,
+} from '@/apis/tag';
+import { Tag } from '@/apis/tag/types';
+import { Route as AdminTagRoute } from '@/routes/admin/tag/route';
 import {
   Box,
   Button,
@@ -20,9 +20,9 @@ import { useRouteContext } from '@tanstack/react-router';
 import { useMemoizedFn } from 'ahooks';
 import { z } from 'zod';
 
-export interface AddOrUpdateCategoryModalChildrenProps {
+export interface AddOrUpdateTagModalChildrenProps {
   onClose: () => void;
-  currentCategory?: Category;
+  currentTag?: Tag;
 }
 
 const rules = z.object({
@@ -35,33 +35,33 @@ const rules = z.object({
   description: z.string().trim().max(512, '接口权限不能超过512个字符'),
 });
 
-const AddOrUpdateCategoryModalChildren: React.FC<
-  AddOrUpdateCategoryModalChildrenProps
-> = ({ onClose, currentCategory }) => {
-  const ctx = useRouteContext({ from: AdminCategoryRoute.to });
+const AddOrUpdateTagModalChildren: React.FC<
+  AddOrUpdateTagModalChildrenProps
+> = ({ onClose, currentTag }) => {
+  const ctx = useRouteContext({ from: AdminTagRoute.to });
 
   const defaultValues = useMemoizedFn(() => {
-    if (!currentCategory)
+    if (!currentTag)
       return {
         name: '',
         description: '',
       };
     return {
-      name: currentCategory.name,
-      description: currentCategory.description,
+      name: currentTag.name,
+      description: currentTag.description,
     };
   });
 
   const formApi = useForm({
     defaultValues: defaultValues(),
     onSubmit: async ({ value }) => {
-      if (currentCategory) {
-        await updateCategoryMutation({
-          id: currentCategory.id,
+      if (currentTag) {
+        await updateTagMutation({
+          id: currentTag.id,
           ...value,
         });
       } else {
-        await addCategoryMutation(value);
+        await addTagMutation(value);
       }
     },
     validators: {
@@ -69,13 +69,13 @@ const AddOrUpdateCategoryModalChildren: React.FC<
     },
   });
 
-  const { mutateAsync: addCategoryMutation, isPending: isAddCategoryPending } =
+  const { mutateAsync: addTagMutation, isPending: isAddTagPending } =
     useMutation({
-      mutationFn: addCategoryMutationFn,
+      mutationFn: addTagMutationFn,
       onMutate: () => {
         return notifications.show({
           loading: true,
-          message: '请稍等片刻，正在添加分类',
+          message: '请稍等片刻，正在添加标签',
           autoClose: false,
           withCloseButton: false,
         });
@@ -84,7 +84,7 @@ const AddOrUpdateCategoryModalChildren: React.FC<
         notifications.update({
           id: context,
           color: 'green',
-          message: '添加分类成功',
+          message: '添加标签成功',
           loading: false,
           autoClose: 2000,
         });
@@ -94,14 +94,14 @@ const AddOrUpdateCategoryModalChildren: React.FC<
         onClose();
 
         ctx.queryClient.invalidateQueries({
-          queryKey: [CATEGORY_LIST_QUERY_KEY],
+          queryKey: [TAG_LIST_QUERY_KEY],
         });
       },
       onError: (error, _var, context) => {
         notifications.update({
           id: context,
           color: 'red',
-          title: '添加分类失败',
+          title: '添加标签失败',
           message: error.message,
           loading: false,
           autoClose: 2000,
@@ -109,52 +109,50 @@ const AddOrUpdateCategoryModalChildren: React.FC<
       },
     });
 
-  const {
-    mutateAsync: updateCategoryMutation,
-    isPending: isUpdateCategoryPending,
-  } = useMutation({
-    mutationFn: updateCategoryMutationFn,
-    onMutate: () => {
-      return notifications.show({
-        loading: true,
-        message: '请稍等片刻，正在修改分类',
-        autoClose: false,
-        withCloseButton: false,
-      });
-    },
-    onSuccess: (_data, _var, context) => {
-      notifications.update({
-        id: context,
-        color: 'green',
-        message: '修改分类成功',
-        loading: false,
-        autoClose: 2000,
-      });
+  const { mutateAsync: updateTagMutation, isPending: isUpdateTagPending } =
+    useMutation({
+      mutationFn: updateTagMutationFn,
+      onMutate: () => {
+        return notifications.show({
+          loading: true,
+          message: '请稍等片刻，正在修改标签',
+          autoClose: false,
+          withCloseButton: false,
+        });
+      },
+      onSuccess: (_data, _var, context) => {
+        notifications.update({
+          id: context,
+          color: 'green',
+          message: '修改标签成功',
+          loading: false,
+          autoClose: 2000,
+        });
 
-      formApi.reset();
+        formApi.reset();
 
-      onClose();
+        onClose();
 
-      ctx.queryClient.invalidateQueries({
-        queryKey: [CATEGORY_LIST_QUERY_KEY],
-      });
-    },
-    onError: (error, _var, context) => {
-      notifications.update({
-        id: context,
-        color: 'red',
-        title: '修改分类失败',
-        message: error.message,
-        loading: false,
-        autoClose: 2000,
-      });
-    },
-  });
+        ctx.queryClient.invalidateQueries({
+          queryKey: [TAG_LIST_QUERY_KEY],
+        });
+      },
+      onError: (error, _var, context) => {
+        notifications.update({
+          id: context,
+          color: 'red',
+          title: '修改标签失败',
+          message: error.message,
+          loading: false,
+          autoClose: 2000,
+        });
+      },
+    });
 
   return (
     <Box pos="relative">
       <LoadingOverlay
-        visible={isAddCategoryPending || isUpdateCategoryPending}
+        visible={isAddTagPending || isUpdateTagPending}
         zIndex={1000}
         overlayProps={{ radius: 'sm', blur: 2 }}
       />
@@ -244,4 +242,4 @@ const AddOrUpdateCategoryModalChildren: React.FC<
   );
 };
 
-export default AddOrUpdateCategoryModalChildren;
+export default AddOrUpdateTagModalChildren;
