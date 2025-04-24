@@ -10,7 +10,7 @@ import {
   Divider,
   Group,
   Pill,
-  Table,
+  ScrollArea,
   Text,
   Title,
 } from '@mantine/core';
@@ -73,7 +73,7 @@ function Tag() {
     },
   });
 
-  const renderTable = useMemoizedFn(() => {
+  const renderTags = useMemoizedFn(() => {
     if (isFetching) return <LoadingComponent />;
 
     if (isError)
@@ -82,8 +82,7 @@ function Tag() {
     if (data?.length === 0) return <EmptyComponent />;
 
     return (
-      <Table.ScrollContainer
-        minWidth={1000}
+      <ScrollArea
         h={'calc(100% - 30px - 33px)'}
         className="[&>.mantine-ScrollArea-scrollbar]:z-[3]"
       >
@@ -118,24 +117,7 @@ function Tag() {
             </Pill>
           ))}
         </Group>
-        {/* <Table
-          striped
-          //   stickyHeader
-          //   stickyHeaderOffset={0}
-          highlightOnHover
-          withTableBorder
-          withColumnBorders
-        >
-          <Table.Thead>
-            <Table.Tr>
-              <Table.Th>名称</Table.Th>
-              <Table.Th>描述</Table.Th>
-              <Table.Th>操作</Table.Th>
-            </Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>{rows}</Table.Tbody>
-        </Table> */}
-      </Table.ScrollContainer>
+      </ScrollArea>
     );
   });
 
@@ -143,17 +125,6 @@ function Tag() {
 
   return (
     <>
-      {/* <Searchbar
-        isLoading={isFetching}
-        onSearch={async (value) => {
-          console.log(value);
-          setSearchValue(value);
-        }}
-        onReset={() => {
-          setSearchValue(undefined);
-        }}
-      />
-      <Divider my="md" /> */}
       <Group justify="space-between">
         <Title order={2} size={'h4'}>
           {ctx.title}
@@ -168,7 +139,7 @@ function Tag() {
         </Button>
       </Group>
       <Divider my="md" />
-      {renderTable()}
+      {renderTags()}
       <AddOrUpdateTagModal ref={addOrUpdateTagModalRef} />
     </>
   );

@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from 'react';
+import { FC, useMemo, useRef, useState } from 'react';
 import { useAuth } from '@contexts/auth';
 // import { pixelArt } from '@dicebear/collection';
 // import { createAvatar } from '@dicebear/core';
@@ -67,6 +67,15 @@ const Layout: FC<LayoutProps> = ({ children }) => {
   const auth = useAuth();
 
   const navigate = useNavigate();
+
+  const avatarSrc = useMemo(() => {
+    return auth.userinfo?.image_id
+      ? import.meta.env.VITE_BASE_API +
+          `/common/image/download/${
+            auth.userinfo?.image_id
+          }?${new Date().getTime()}`
+      : undefined;
+  }, [auth.userinfo?.image_id]);
 
   return (
     <AppShell
@@ -193,14 +202,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
                         alt={'name'}
                         radius="xl"
                         size={28}
-                        src={
-                          auth.userinfo?.image_id
-                            ? import.meta.env.VITE_BASE_API +
-                              `/common/image/download/${
-                                auth.userinfo?.image_id
-                              }?${new Date().getTime()}`
-                            : undefined
-                        }
+                        src={avatarSrc}
                       />
                       <Text fw={500} size="sm" lh={1} mr={3} truncate maw={100}>
                         {auth.userinfo?.nickname}

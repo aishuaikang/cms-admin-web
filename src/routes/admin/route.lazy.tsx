@@ -13,6 +13,7 @@ import {
   IconBuildingFactory2,
   IconCategory,
   IconHomeQuestion,
+  IconImageInPicture,
   IconTag,
   IconUsers,
 } from '@tabler/icons-react';
@@ -25,6 +26,7 @@ import {
 import { useCreation } from 'ahooks';
 import { Route as AdminCategoryRoute } from './category/route';
 import { Route as AdminDictConfigRoute } from './dict_config/route';
+import { Route as AdminImageRoute } from './image/route';
 import { Route as AdminIndexRoute } from './index/route';
 import { Route as AdminIndustryArticlesRoute } from './industry_articles/route';
 import { Route as AdminTagRoute } from './tag/route';
@@ -105,6 +107,16 @@ function Admin() {
                 component="span"
                 label="标签管理"
                 leftSection={<IconTag size={16} stroke={1.5} />}
+                active={isActive}
+              />
+            )}
+          </Link>
+          <Link to={AdminImageRoute.to}>
+            {({ isActive }) => (
+              <NavLink
+                component="span"
+                label="图片管理"
+                leftSection={<IconImageInPicture size={16} stroke={1.5} />}
                 active={isActive}
               />
             )}

@@ -53,7 +53,7 @@ async function requestJson<T>(
         setIsShowLoginModalStore(true);
       }
       nprogress.complete();
-      throw new Error(json.message || '请求失败');
+      throw new Error(json.error || '请求失败');
     }
     nprogress.complete();
     return json.data;
