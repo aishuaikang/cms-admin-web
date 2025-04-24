@@ -1,5 +1,3 @@
-import { ArticleStatus } from '@/apis/articles/types';
-import { getEnumOptions } from '@/utils';
 import {
   Button,
   Grid,
@@ -105,10 +103,7 @@ const Searchbar: React.FC<SearchbarProps> = ({
                   clearable
                   onClear={() => handleChange(null)}
                   placeholder="请选择状态"
-                  data={getEnumOptions(ArticleStatus).map((item) => ({
-                    value: item.value.toString(),
-                    label: item.label,
-                  }))}
+                  data={[]}
                   error={state.meta.errors[0]?.message}
                 />
               )}

@@ -1,4 +1,4 @@
-import { Route as IndexRoute } from '@routes/index/route';
+import { Route as IndexRoute } from '@/routes/admin/route';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import NotFoundComponent from '@/components/NotFoundComponent';
 

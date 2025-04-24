@@ -3,13 +3,9 @@ import {
   ARTICLE_LIST_QUERY_KEY,
   deleteArticleMutationFn,
   getArticleListQueryOptions,
-} from '@/apis/articles';
-import {
-  ArticleChannel,
-  ArticleStatus,
-  ArticleType,
-} from '@/apis/articles/types';
-import { Route as AdminIndustryArticlesRoute } from '@/routes/admin/industry_articles/route';
+} from '@/apis/article';
+import { ArticleStatus } from '@/apis/article/types';
+import { Route as AdminArticleRoute } from '@/routes/admin/article/route';
 import {
   ActionIcon,
   Button,
@@ -20,6 +16,7 @@ import {
   Table,
   Text,
   Title,
+  Tooltip,
 } from '@mantine/core';
 import { modals } from '@mantine/modals';
 import { notifications } from '@mantine/notifications';
@@ -30,32 +27,24 @@ import { useMemoizedFn } from 'ahooks';
 import AddOrUpdateArticleModal, {
   AddOrUpdateArticleModalRef,
 } from '@/components/admin/industry_articles/AddOrUpdateArticleModal';
-import Searchbar, {
-  SearchValue,
-} from '@/components/admin/industry_articles/Searchbar';
+import Searchbar from '@/components/admin/industry_articles/Searchbar';
 import EmptyComponent from '@/components/EmptyComponent';
 import ErrorComponent from '@/components/ErrorComponent';
 import LoadingComponent from '@/components/LoadingComponent';
 
-export const Route = createLazyFileRoute('/admin/industry_articles')({
+export const Route = createLazyFileRoute('/admin/article')({
   component: IndustryArticles,
 });
 
 function IndustryArticles() {
-  const ctx = useRouteContext({ from: AdminIndustryArticlesRoute.to });
+  const ctx = useRouteContext({ from: AdminArticleRoute.to });
 
   const [pageNum, setPageNum] = useState(1);
 
-  const [searchValue, setSearchValue] = useState<SearchValue>();
+  //   const [searchValue, setSearchValue] = useState<SearchValue>();
 
   const { isError, error, data, isFetching } = useQuery(
-    getArticleListQueryOptions({
-      pageNum,
-      pageSize: import.meta.env.VITE_COMMON_PAGE_SIZE,
-      channel: ArticleChannel.行业新闻,
-      status: (searchValue?.status as unknown as ArticleStatus) ?? undefined,
-      keyword: searchValue?.keyword ?? undefined,
-    })
+    getArticleListQueryOptions()
   );
 
   const { mutateAsync: deleteArticleMutation } = useMutation({
@@ -94,27 +83,29 @@ function IndustryArticles() {
   });
 
   const rows = useMemo(() => {
-    return data?.rows?.map((article) => (
+    return data?.map((article) => (
       <Table.Tr key={article.id}>
-        <Table.Td miw={200}>{article.title}</Table.Td>
-        <Table.Td miw={300}>{article.description}</Table.Td>
-        <Table.Td miw={100} align="center">
-          {ArticleType[article.type]}
+        <Table.Td miw={100}>
+          <Tooltip label={article.title} withArrow position="top-start">
+            <Text lineClamp={1} size="sm">
+              {article.title}
+            </Text>
+          </Tooltip>
         </Table.Td>
-        <Table.Td miw={50} align="center">
-          <Button
-            size="xs"
-            variant="transparent"
-            component="a"
-            href={article.url}
-            target="_blank"
-          >
-            查看
-          </Button>
+        <Table.Td>
+          <Tooltip label={article.title} withArrow position="top-start">
+            <Text lineClamp={1} size="sm">
+              {article.description}
+            </Text>
+          </Tooltip>
         </Table.Td>
-        <Table.Td miw={100} align="center">
-          {article.publishTime || '-'}
+        <Table.Td miw={200} align="center">
+          {ArticleStatus[article.status]}
         </Table.Td>
+        <Table.Td miw={200} align="center">
+          {article.created_at}
+        </Table.Td>
+
         <Table.Td w={100}>
           <Group justify="center">
             {/* <Tooltip label="分配文章">
@@ -179,7 +170,7 @@ function IndustryArticles() {
         </Table.Td>
       </Table.Tr>
     ));
-  }, [data?.rows, deleteArticleMutation]);
+  }, [data, deleteArticleMutation]);
 
   const renderTable = useMemoizedFn(() => {
     if (isFetching) return <LoadingComponent />;
@@ -187,7 +178,7 @@ function IndustryArticles() {
     if (isError)
       return <ErrorComponent title="获取文章列表失败" error={error.message} />;
 
-    if (data?.total === 0) return <EmptyComponent />;
+    if (data?.length === 0) return <EmptyComponent />;
 
     return (
       <Table.ScrollContainer
@@ -206,9 +197,9 @@ function IndustryArticles() {
           <Table.Thead>
             <Table.Tr>
               <Table.Th>标题</Table.Th>
-              <Table.Th>摘要</Table.Th>
-              <Table.Th>类型</Table.Th>
-              <Table.Th>外链</Table.Th>
+              <Table.Th>描述</Table.Th>
+              <Table.Th>状态</Table.Th>
+              {/* <Table.Th>外链</Table.Th> */}
               <Table.Th>发布时间</Table.Th>
               <Table.Th>操作</Table.Th>
             </Table.Tr>
@@ -227,10 +218,10 @@ function IndustryArticles() {
         isLoading={isFetching}
         onSearch={async (value) => {
           console.log(value);
-          setSearchValue(value);
+          //   setSearchValue(value);
         }}
         onReset={() => {
-          setSearchValue(undefined);
+          //   setSearchValue(undefined);
         }}
       />
       <Divider my="md" />
@@ -251,7 +242,7 @@ function IndustryArticles() {
       {renderTable()}
       <Divider my="md" />
       <Pagination
-        total={data?.pages || 0}
+        total={data?.length || 0}
         withEdges
         value={pageNum}
         onChange={setPageNum}

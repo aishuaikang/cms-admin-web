@@ -1,7 +1,7 @@
 import { CommonResponse } from '@/apis/types';
 import { router } from '@/main';
+import { Route as IndexRoute } from '@/routes/admin/route';
 import { nprogress } from '@mantine/nprogress';
-import { Route as IndexRoute } from '@routes/index/route';
 import { setIsShowLoginModalStore } from '@store/isShowLoginModalStore';
 import { setUserinfoStore, userinfoStore } from '@store/userinfoStore';
 import { sha512 } from 'js-sha512';

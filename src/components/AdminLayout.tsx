@@ -1,4 +1,6 @@
 import { FC, useMemo, useRef, useState } from 'react';
+import { Route as AdminRoute } from '@/routes/admin/route';
+import { Route as IndexRoute } from '@/routes/admin/route';
 import { useAuth } from '@contexts/auth';
 // import { pixelArt } from '@dicebear/collection';
 // import { createAvatar } from '@dicebear/core';
@@ -17,8 +19,6 @@ import {
   useComputedColorScheme,
   useMantineColorScheme,
 } from '@mantine/core';
-import { Route as AdminRoute } from '@routes/admin/route';
-import { Route as IndexRoute } from '@routes/index/route';
 import {
   IconArticle,
   IconChevronDown,

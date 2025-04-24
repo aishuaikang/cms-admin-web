@@ -15,10 +15,10 @@ import { Route as AdminRouteImport } from './routes/admin/route'
 import { Route as IndexRouteImport } from './routes/index/route'
 import { Route as AdminUsersRouteImport } from './routes/admin/users/route'
 import { Route as AdminTagRouteImport } from './routes/admin/tag/route'
-import { Route as AdminIndustryarticlesRouteImport } from './routes/admin/industry_articles/route'
 import { Route as AdminImageRouteImport } from './routes/admin/image/route'
 import { Route as AdminDictconfigRouteImport } from './routes/admin/dict_config/route'
 import { Route as AdminCategoryRouteImport } from './routes/admin/category/route'
+import { Route as AdminArticleRouteImport } from './routes/admin/article/route'
 import { Route as AdminIndexRouteImport } from './routes/admin/index/route'
 
 // Create/Update Routes
@@ -51,16 +51,6 @@ const AdminTagRouteRoute = AdminTagRouteImport.update({
   import('./routes/admin/tag/route.lazy').then((d) => d.Route),
 )
 
-const AdminIndustryarticlesRouteRoute = AdminIndustryarticlesRouteImport.update(
-  {
-    id: '/industry_articles',
-    path: '/industry_articles',
-    getParentRoute: () => AdminRouteRoute,
-  } as any,
-).lazy(() =>
-  import('./routes/admin/industry_articles/route.lazy').then((d) => d.Route),
-)
-
 const AdminImageRouteRoute = AdminImageRouteImport.update({
   id: '/image',
   path: '/image',
@@ -83,6 +73,14 @@ const AdminCategoryRouteRoute = AdminCategoryRouteImport.update({
   getParentRoute: () => AdminRouteRoute,
 } as any).lazy(() =>
   import('./routes/admin/category/route.lazy').then((d) => d.Route),
+)
+
+const AdminArticleRouteRoute = AdminArticleRouteImport.update({
+  id: '/article',
+  path: '/article',
+  getParentRoute: () => AdminRouteRoute,
+} as any).lazy(() =>
+  import('./routes/admin/article/route.lazy').then((d) => d.Route),
 )
 
 const AdminIndexRouteRoute = AdminIndexRouteImport.update({
@@ -118,6 +116,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRouteImport
     }
+    '/admin/article': {
+      id: '/admin/article'
+      path: '/article'
+      fullPath: '/admin/article'
+      preLoaderRoute: typeof AdminArticleRouteImport
+      parentRoute: typeof AdminRouteImport
+    }
     '/admin/category': {
       id: '/admin/category'
       path: '/category'
@@ -137,13 +142,6 @@ declare module '@tanstack/react-router' {
       path: '/image'
       fullPath: '/admin/image'
       preLoaderRoute: typeof AdminImageRouteImport
-      parentRoute: typeof AdminRouteImport
-    }
-    '/admin/industry_articles': {
-      id: '/admin/industry_articles'
-      path: '/industry_articles'
-      fullPath: '/admin/industry_articles'
-      preLoaderRoute: typeof AdminIndustryarticlesRouteImport
       parentRoute: typeof AdminRouteImport
     }
     '/admin/tag': {
@@ -167,20 +165,20 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteRouteChildren {
   AdminIndexRouteRoute: typeof AdminIndexRouteRoute
+  AdminArticleRouteRoute: typeof AdminArticleRouteRoute
   AdminCategoryRouteRoute: typeof AdminCategoryRouteRoute
   AdminDictconfigRouteRoute: typeof AdminDictconfigRouteRoute
   AdminImageRouteRoute: typeof AdminImageRouteRoute
-  AdminIndustryarticlesRouteRoute: typeof AdminIndustryarticlesRouteRoute
   AdminTagRouteRoute: typeof AdminTagRouteRoute
   AdminUsersRouteRoute: typeof AdminUsersRouteRoute
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminIndexRouteRoute: AdminIndexRouteRoute,
+  AdminArticleRouteRoute: AdminArticleRouteRoute,
   AdminCategoryRouteRoute: AdminCategoryRouteRoute,
   AdminDictconfigRouteRoute: AdminDictconfigRouteRoute,
   AdminImageRouteRoute: AdminImageRouteRoute,
-  AdminIndustryarticlesRouteRoute: AdminIndustryarticlesRouteRoute,
   AdminTagRouteRoute: AdminTagRouteRoute,
   AdminUsersRouteRoute: AdminUsersRouteRoute,
 }
@@ -193,10 +191,10 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRouteRoute
   '/admin': typeof AdminRouteRouteWithChildren
   '/admin/': typeof AdminIndexRouteRoute
+  '/admin/article': typeof AdminArticleRouteRoute
   '/admin/category': typeof AdminCategoryRouteRoute
   '/admin/dict_config': typeof AdminDictconfigRouteRoute
   '/admin/image': typeof AdminImageRouteRoute
-  '/admin/industry_articles': typeof AdminIndustryarticlesRouteRoute
   '/admin/tag': typeof AdminTagRouteRoute
   '/admin/users': typeof AdminUsersRouteRoute
 }
@@ -204,10 +202,10 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRouteRoute
   '/admin': typeof AdminIndexRouteRoute
+  '/admin/article': typeof AdminArticleRouteRoute
   '/admin/category': typeof AdminCategoryRouteRoute
   '/admin/dict_config': typeof AdminDictconfigRouteRoute
   '/admin/image': typeof AdminImageRouteRoute
-  '/admin/industry_articles': typeof AdminIndustryarticlesRouteRoute
   '/admin/tag': typeof AdminTagRouteRoute
   '/admin/users': typeof AdminUsersRouteRoute
 }
@@ -217,10 +215,10 @@ export interface FileRoutesById {
   '/': typeof IndexRouteRoute
   '/admin': typeof AdminRouteRouteWithChildren
   '/admin/': typeof AdminIndexRouteRoute
+  '/admin/article': typeof AdminArticleRouteRoute
   '/admin/category': typeof AdminCategoryRouteRoute
   '/admin/dict_config': typeof AdminDictconfigRouteRoute
   '/admin/image': typeof AdminImageRouteRoute
-  '/admin/industry_articles': typeof AdminIndustryarticlesRouteRoute
   '/admin/tag': typeof AdminTagRouteRoute
   '/admin/users': typeof AdminUsersRouteRoute
 }
@@ -231,20 +229,20 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/admin/'
+    | '/admin/article'
     | '/admin/category'
     | '/admin/dict_config'
     | '/admin/image'
-    | '/admin/industry_articles'
     | '/admin/tag'
     | '/admin/users'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/admin'
+    | '/admin/article'
     | '/admin/category'
     | '/admin/dict_config'
     | '/admin/image'
-    | '/admin/industry_articles'
     | '/admin/tag'
     | '/admin/users'
   id:
@@ -252,10 +250,10 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/admin/'
+    | '/admin/article'
     | '/admin/category'
     | '/admin/dict_config'
     | '/admin/image'
-    | '/admin/industry_articles'
     | '/admin/tag'
     | '/admin/users'
   fileRoutesById: FileRoutesById
@@ -292,16 +290,20 @@ export const routeTree = rootRoute
       "filePath": "admin/route.tsx",
       "children": [
         "/admin/",
+        "/admin/article",
         "/admin/category",
         "/admin/dict_config",
         "/admin/image",
-        "/admin/industry_articles",
         "/admin/tag",
         "/admin/users"
       ]
     },
     "/admin/": {
       "filePath": "admin/index/route.tsx",
+      "parent": "/admin"
+    },
+    "/admin/article": {
+      "filePath": "admin/article/route.tsx",
       "parent": "/admin"
     },
     "/admin/category": {
@@ -314,10 +316,6 @@ export const routeTree = rootRoute
     },
     "/admin/image": {
       "filePath": "admin/image/route.tsx",
-      "parent": "/admin"
-    },
-    "/admin/industry_articles": {
-      "filePath": "admin/industry_articles/route.tsx",
       "parent": "/admin"
     },
     "/admin/tag": {

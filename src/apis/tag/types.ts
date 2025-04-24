@@ -1,4 +1,4 @@
-import { Article } from '../articles/types';
+import { Article } from '../article/types';
 
 export interface Tag {
   id: string;

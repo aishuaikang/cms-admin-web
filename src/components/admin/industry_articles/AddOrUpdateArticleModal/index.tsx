@@ -1,5 +1,5 @@
 import { forwardRef, useImperativeHandle, useState } from 'react';
-import { Article } from '@/apis/articles/types';
+import { Article } from '@/apis/article/types';
 import { useModalsStack } from '@mantine/core';
 import { useMemoizedFn } from 'ahooks';
 import CommonModal from '@components/CommonModal';

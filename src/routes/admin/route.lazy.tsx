@@ -10,10 +10,10 @@ import {
 } from '@mantine/core';
 import {
   IconBook2,
-  IconBuildingFactory2,
   IconCategory,
   IconHomeQuestion,
   IconImageInPicture,
+  IconNews,
   IconTag,
   IconUsers,
 } from '@tabler/icons-react';
@@ -24,11 +24,11 @@ import {
   useRouterState,
 } from '@tanstack/react-router';
 import { useCreation } from 'ahooks';
+import { Route as AdminArticleRoute } from './article/route';
 import { Route as AdminCategoryRoute } from './category/route';
 import { Route as AdminDictConfigRoute } from './dict_config/route';
 import { Route as AdminImageRoute } from './image/route';
 import { Route as AdminIndexRoute } from './index/route';
-import { Route as AdminIndustryArticlesRoute } from './industry_articles/route';
 import { Route as AdminTagRoute } from './tag/route';
 import { Route as AdminUsersRoute } from './users/route';
 
@@ -121,12 +121,12 @@ function Admin() {
               />
             )}
           </Link>
-          <Link to={AdminIndustryArticlesRoute.to}>
+          <Link to={AdminArticleRoute.to}>
             {({ isActive }) => (
               <NavLink
                 component="span"
-                label="行业新闻"
-                leftSection={<IconBuildingFactory2 size={16} stroke={1.5} />}
+                label="文章管理"
+                leftSection={<IconNews size={16} stroke={1.5} />}
                 active={isActive}
               />
             )}

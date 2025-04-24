@@ -2,14 +2,9 @@ import {
   addArticleMutationFn,
   ARTICLE_LIST_QUERY_KEY,
   updateArticleMutationFn,
-} from '@/apis/articles';
-import {
-  Article,
-  ArticleChannel,
-  ArticleOperate,
-  ArticleType,
-} from '@/apis/articles/types';
-import { Route as AdminIndustryArticlesRoute } from '@/routes/admin/industry_articles/route';
+} from '@/apis/article';
+import { Article } from '@/apis/article/types';
+import { Route as AdminArticleRoute } from '@/routes/admin/article/route';
 import {
   Box,
   Button,
@@ -53,7 +48,7 @@ const rules = z.object({
 const AddOrUpdateArticleModalChildren: React.FC<
   AddOrUpdateArticleModalChildrenProps
 > = ({ onClose, currentArticle }) => {
-  const ctx = useRouteContext({ from: AdminIndustryArticlesRoute.to });
+  const ctx = useRouteContext({ from: AdminArticleRoute.to });
 
   const defaultValues = useMemoizedFn(() => {
     if (!currentArticle)
@@ -67,7 +62,7 @@ const AddOrUpdateArticleModalChildren: React.FC<
       title: currentArticle.title,
       description: currentArticle.description,
       //   image: currentArticle.image,
-      url: currentArticle.url,
+      //   url: currentArticle.url,
     };
   });
 
@@ -75,22 +70,22 @@ const AddOrUpdateArticleModalChildren: React.FC<
     defaultValues: defaultValues(),
     onSubmit: async ({ value }) => {
       if (currentArticle) {
-        await updateArticleMutation({
-          articleId: currentArticle.id,
-          data: {
-            ...value,
-            type: ArticleType.外部链接,
-            channel: ArticleChannel.行业新闻,
-            operate: ArticleOperate.保存发布,
-          },
-        });
+        // await updateArticleMutation({
+        //   articleId: currentArticle.id,
+        //   data: {
+        //     ...value,
+        //     type: ArticleType.外部链接,
+        //     channel: ArticleChannel.行业新闻,
+        //     operate: ArticleOperate.保存发布,
+        //   },
+        // });
       } else {
-        await addArticleMutation({
-          ...value,
-          type: ArticleType.外部链接,
-          channel: ArticleChannel.行业新闻,
-          operate: ArticleOperate.保存发布,
-        });
+        // await addArticleMutation({
+        //   ...value,
+        //   type: ArticleType.外部链接,
+        //   channel: ArticleChannel.行业新闻,
+        //   operate: ArticleOperate.保存发布,
+        // });
       }
     },
     validators: {
