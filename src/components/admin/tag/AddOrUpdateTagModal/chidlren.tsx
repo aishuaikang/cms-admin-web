@@ -32,7 +32,7 @@ const rules = z.object({
     .nonempty('名称不能为空')
     .min(2, '名称不能少于2个字符')
     .max(15, '名称不能超过15个字符'),
-  description: z.string().trim().max(512, '接口权限不能超过512个字符'),
+  description: z.string().trim().max(256, '描述不能超过256个字符'),
 });
 
 const AddOrUpdateTagModalChildren: React.FC<
@@ -211,8 +211,8 @@ const AddOrUpdateTagModalChildren: React.FC<
               autosize
               minRows={2}
               maxRows={4}
-              description="描述不能超过512个字符"
-              maxLength={512}
+              description="描述不能超过256个字符"
+              maxLength={256}
             />
           )}
         />

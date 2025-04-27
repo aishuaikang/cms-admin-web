@@ -7,6 +7,7 @@ import {
   Divider,
   NavLink,
   ScrollArea,
+  UnstyledButton,
 } from '@mantine/core';
 import {
   IconBook2,
@@ -55,11 +56,10 @@ function Admin() {
       <AppShell.Navbar p={'md'} w={200}>
         <ScrollArea w={'100%'} h="100%">
           <Divider my="xs" label="后台首页" labelPosition="center" />
-          <Link
+          <UnstyledButton
+            component={Link}
             to={AdminIndexRoute.to}
-            activeOptions={{
-              exact: true,
-            }}
+            activeOptions={{ exact: true }}
           >
             {({ isActive }) => (
               <NavLink
@@ -69,8 +69,8 @@ function Admin() {
                 active={isActive}
               />
             )}
-          </Link>
-          <Link to={AdminUsersRoute.to}>
+          </UnstyledButton>
+          <UnstyledButton component={Link} to={AdminUsersRoute.to}>
             {({ isActive }) => (
               <NavLink
                 component="span"
@@ -79,8 +79,8 @@ function Admin() {
                 active={isActive}
               />
             )}
-          </Link>
-          <Link to={AdminDictConfigRoute.to}>
+          </UnstyledButton>
+          <UnstyledButton component={Link} to={AdminDictConfigRoute.to}>
             {({ isActive }) => (
               <NavLink
                 component="span"
@@ -89,9 +89,9 @@ function Admin() {
                 active={isActive}
               />
             )}
-          </Link>
+          </UnstyledButton>
           <Divider my="xs" label="CMS管理" labelPosition="center" />
-          <Link to={AdminCategoryRoute.to}>
+          <UnstyledButton component={Link} to={AdminCategoryRoute.to}>
             {({ isActive }) => (
               <NavLink
                 component="span"
@@ -100,8 +100,8 @@ function Admin() {
                 active={isActive}
               />
             )}
-          </Link>
-          <Link to={AdminTagRoute.to}>
+          </UnstyledButton>
+          <UnstyledButton component={Link} to={AdminTagRoute.to}>
             {({ isActive }) => (
               <NavLink
                 component="span"
@@ -110,8 +110,8 @@ function Admin() {
                 active={isActive}
               />
             )}
-          </Link>
-          <Link to={AdminImageRoute.to}>
+          </UnstyledButton>
+          <UnstyledButton component={Link} to={AdminImageRoute.to}>
             {({ isActive }) => (
               <NavLink
                 component="span"
@@ -120,8 +120,8 @@ function Admin() {
                 active={isActive}
               />
             )}
-          </Link>
-          <Link to={AdminArticleRoute.to}>
+          </UnstyledButton>
+          <UnstyledButton component={Link} to={AdminArticleRoute.to}>
             {({ isActive }) => (
               <NavLink
                 component="span"
@@ -130,7 +130,7 @@ function Admin() {
                 active={isActive}
               />
             )}
-          </Link>
+          </UnstyledButton>
 
           {/* <Divider my="xs" label="系统维护" labelPosition="center" />
           <Link to={AdminDictConfigRoute.to}>
@@ -159,11 +159,11 @@ function Admin() {
         <Container size={'xl'}>
           <Breadcrumbs>
             {breadcrumbs.map((item, index) => (
-              <Link to={item.path} key={index}>
+              <UnstyledButton component={Link} to={item.path} key={index}>
                 <Anchor size="sm" component="span" underline={'hover'}>
                   {item.title}
                 </Anchor>
-              </Link>
+              </UnstyledButton>
             ))}
           </Breadcrumbs>
           <Divider my="md" />

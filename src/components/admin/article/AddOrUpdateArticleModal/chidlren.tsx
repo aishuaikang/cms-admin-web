@@ -3,14 +3,18 @@ import {
   ARTICLE_LIST_QUERY_KEY,
   updateArticleMutationFn,
 } from '@/apis/article';
-import { Article } from '@/apis/article/types';
+import { Article, ArticleStatus } from '@/apis/article/types';
 import { Route as AdminArticleRoute } from '@/routes/admin/article/route';
+import { getEnumOptions } from '@/utils';
 import {
   Box,
   Button,
+  Group,
   Input,
   LoadingOverlay,
-  Textarea,
+  Radio,
+  Stack,
+  Text,
   TextInput,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
@@ -19,6 +23,9 @@ import { useMutation } from '@tanstack/react-query';
 import { useRouteContext } from '@tanstack/react-router';
 import { useMemoizedFn } from 'ahooks';
 import { z } from 'zod';
+import CategorySelect from '@/components/CategorySelect';
+import { RichTextEditor } from '@/components/RichTextEditor';
+import TagSelect from '@/components/TagSelect';
 
 export interface AddOrUpdateArticleModalChildrenProps {
   onClose: () => void;
@@ -31,16 +38,23 @@ const rules = z.object({
     .trim()
     .nonempty('标题不能为空')
     .min(2, '标题不能少于2个字符')
-    .max(15, '文章名称不能超过15个字符')
-    .regex(/^[\u4e00-\u9fa5]+$/, '文章名称只能包含中文'),
-  description: z.string().trim().max(512, '接口权限不能超过512个字符'),
-  url: z
-    .string()
-    .trim()
-    .nonempty('链接不能为空')
-    .min(2, '链接不能少于2个字符')
-    .max(150, '链接不能超过150个字符')
-    .regex(/^(http|https):\/\/[^\s]+$/, '链接格式不正确'),
+    .max(50, '文章名称不能超过50个字符')
+    .regex(/^[\u4e00-\u9fa5a-zA-Z0-9_]+$/, '禁止使用特殊字符'),
+
+  content: z.string().nonempty('内容不能为空'),
+  category_id: z.string().trim().nonempty('分类不能为空'),
+  status: z.number().min(0, '状态不能为空').max(1, '状态不能为空'),
+  tag_ids: z.array(z.string()).nullable(),
+
+  //   id: context,
+
+  //   url: z
+  //     .string()
+  //     .trim()
+  //     .nonempty('链接不能为空')
+  //     .min(2, '链接不能少于2个字符')
+  //     .max(150, '链接不能超过150个字符')
+  //     .regex(/^(http|https):\/\/[^\s]+$/, '链接格式不正确'),
 });
 
 // type FormValues = z.infer<typeof rules>;
@@ -54,14 +68,20 @@ const AddOrUpdateArticleModalChildren: React.FC<
     if (!currentArticle)
       return {
         title: '',
-        description: '',
+        content: '',
+        category_id: '',
+        status: ArticleStatus.公开 as number,
         // image: undefined,
-        url: '',
+        tag_ids: null as string[] | null,
       };
     return {
       title: currentArticle.title,
-      description: currentArticle.description,
+      content: currentArticle.content,
+      category_id: currentArticle.category_id,
+      status: currentArticle.status as number,
+      tag_ids: currentArticle.tags?.map((item) => item.id) || null,
       //   image: currentArticle.image,
+
       //   url: currentArticle.url,
     };
   });
@@ -69,23 +89,22 @@ const AddOrUpdateArticleModalChildren: React.FC<
   const formApi = useForm({
     defaultValues: defaultValues(),
     onSubmit: async ({ value }) => {
+      console.log(value);
       if (currentArticle) {
-        // await updateArticleMutation({
-        //   articleId: currentArticle.id,
-        //   data: {
-        //     ...value,
-        //     type: ArticleType.外部链接,
-        //     channel: ArticleChannel.行业新闻,
-        //     operate: ArticleOperate.保存发布,
-        //   },
-        // });
+        await updateArticleMutation({
+          id: currentArticle.id,
+          ...value,
+          status: value.status as unknown as ArticleStatus,
+          image_ids: null,
+          description: value.content.slice(0, 50),
+        });
       } else {
-        // await addArticleMutation({
-        //   ...value,
-        //   type: ArticleType.外部链接,
-        //   channel: ArticleChannel.行业新闻,
-        //   operate: ArticleOperate.保存发布,
-        // });
+        await addArticleMutation({
+          ...value,
+          status: value.status as unknown as ArticleStatus,
+          image_ids: null,
+          description: value.content.slice(0, 50),
+        });
       }
     },
     validators: {
@@ -191,28 +210,6 @@ const AddOrUpdateArticleModalChildren: React.FC<
         }}
         onReset={() => formApi.reset()}
       >
-        {/* <formApi.Field
-          name="type"
-          children={({ name, state, handleChange, handleBlur }) => {
-            return (
-              <Radio.Group
-                withAsterisk
-                label="文章类型"
-                name={name}
-                value={state.value}
-                onBlur={handleBlur}
-                onChange={(e) => handleChange(e as 'page' | 'button')}
-                error={state.meta.errors[0]?.message}
-                description="用于在文章中区分展示不同类型的图标"
-              >
-                <Group mt="xs">
-                  <Radio value="page" label="页面" />
-                  <Radio value="button" label="按钮" />
-                </Group>
-              </Radio.Group>
-            );
-          }}
-        /> */}
         <formApi.Field
           name="title"
           children={({ name, state, handleChange, handleBlur }) => {
@@ -233,83 +230,87 @@ const AddOrUpdateArticleModalChildren: React.FC<
                 }
                 rightSectionPointerEvents="auto"
                 placeholder="合规经营依法纳税 护航企业高质量发展"
-                description="标题只能包含中文"
+                description="不能超过50个字符，禁止使用特殊字符"
+              />
+            );
+          }}
+        />
+
+        <formApi.Field
+          name="category_id"
+          children={({ name, state, handleChange, handleBlur }) => {
+            return (
+              <CategorySelect
+                withAsterisk
+                name={name}
+                value={state.value}
+                onBlur={handleBlur}
+                onChange={(value) => handleChange(value ?? '')}
+                error={state.meta.errors[0]?.message}
               />
             );
           }}
         />
         <formApi.Field
-          name="description"
+          name="content"
+          children={({ state, handleChange }) => (
+            <Stack gap={'xs'}>
+              <RichTextEditor value={state.value} onChange={handleChange} />
+              {state.meta.errors[0]?.message && (
+                <Text className="text-red-500" size="xs">
+                  {state.meta.errors[0]?.message}
+                </Text>
+              )}
+            </Stack>
+          )}
+        />
+
+        <formApi.Field
+          name="status"
           children={({ name, state, handleChange, handleBlur }) => (
-            <Textarea
-              label="描述"
+            <Radio.Group
+              withAsterisk
+              label="状态"
               variant="filled"
               name={name}
-              value={state.value}
               onBlur={handleBlur}
-              onChange={(e) => handleChange(e.target.value)}
+              value={state.value as unknown as string}
+              onChange={(e) => {
+                handleChange(parseInt(e));
+              }}
               error={state.meta.errors[0]?.message}
-              rightSection={
-                state.value !== '' ? (
-                  <Input.ClearButton onClick={() => handleChange('')} />
-                ) : undefined
-              }
-              rightSectionPointerEvents="auto"
-              placeholder="描述"
-              autosize
-              minRows={2}
-              maxRows={4}
-              description="描述不能超过512个字符"
-              maxLength={512}
+            >
+              <Group mt="xs" mb="xs">
+                {getEnumOptions(ArticleStatus).map((item) => {
+                  return (
+                    <Radio
+                      value={item.value}
+                      label={item.label}
+                      key={item.value}
+                    />
+                  );
+                })}
+              </Group>
+            </Radio.Group>
+          )}
+        />
+
+        <formApi.Field
+          name="tag_ids"
+          children={({ name, state, handleChange, handleBlur }) => (
+            <TagSelect
+              name={name}
+              onBlur={handleBlur}
+              value={state.value ?? []}
+              onChange={(e) => {
+                console.log();
+                handleChange(e);
+              }}
+              error={state.meta.errors[0]?.message}
             />
           )}
         />
 
-        {/* <formApi.Field
-          name="image"
-          children={({ name, state, handleChange, handleBlur }) => (
-            <FileInput
-              withAsterisk
-              label="摘要"
-              variant="filled"
-              name={name}
-              value={state.value}
-              onBlur={handleBlur}
-              onChange={(e) => handleChange(e.target.value)}
-              error={state.meta.errors[0]?.message}
-              rightSection={
-                state.value !== '' ? (
-                  <Input.ClearButton onClick={() => handleChange('')} />
-                ) : undefined
-              }
-              rightSectionPointerEvents="auto"
-              placeholder="新闻摘要"
-              description="摘要只能包含中文"
-            />
-          )}
-        /> */}
-        <formApi.Field
-          name="url"
-          children={({ name, state, handleChange, handleBlur }) => (
-            <TextInput
-              withAsterisk
-              label="外链"
-              variant="filled"
-              name={name}
-              value={state.value}
-              onBlur={handleBlur}
-              onChange={(e) => handleChange(e.target.value)}
-              error={state.meta.errors[0]?.message}
-              rightSection={
-                state.value !== '' ? (
-                  <Input.ClearButton onClick={() => handleChange('')} />
-                ) : undefined
-              }
-              rightSectionPointerEvents="auto"
-              placeholder="http://shanxi.chinatax.gov.cn/web/detail/sx-11400-589-1801419"
-            />
-          )}
-        />
         <Box className="flex flex-row-reverse gap-4">
           <formApi.Subscribe
             selector={(state) => [state.canSubmit, state.isSubmitting]}

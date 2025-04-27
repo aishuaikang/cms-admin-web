@@ -132,7 +132,7 @@ const AddOrUpdateUserModalChildren: React.FC<
         notifications.update({
           id: context,
           color: 'red',
-          title: '添加文章失败',
+          title: '添加用户失败',
           message: error.message,
           loading: false,
           autoClose: 2000,
@@ -146,7 +146,7 @@ const AddOrUpdateUserModalChildren: React.FC<
       onMutate: () => {
         return notifications.show({
           loading: true,
-          message: '请稍等片刻，正在修改文章',
+          message: '请稍等片刻，正在修改用户',
           autoClose: false,
           withCloseButton: false,
         });
@@ -155,7 +155,7 @@ const AddOrUpdateUserModalChildren: React.FC<
         notifications.update({
           id: context,
           color: 'green',
-          message: '修改文章成功',
+          message: '修改用户成功',
           loading: false,
           autoClose: 2000,
         });
@@ -172,7 +172,7 @@ const AddOrUpdateUserModalChildren: React.FC<
         notifications.update({
           id: context,
           color: 'red',
-          title: '修改文章失败',
+          title: '修改用户失败',
           message: error.message,
           loading: false,
           autoClose: 2000,

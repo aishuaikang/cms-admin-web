@@ -1,6 +1,6 @@
 import { requestJson } from '@/utils';
 import { queryOptions } from '@tanstack/react-query';
-import { Image } from './type';
+import { Image } from './types';
 
 export const IMAGE_LIST_QUERY_KEY = 'getImageList';
 

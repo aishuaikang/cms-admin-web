@@ -53,7 +53,7 @@ const AddOrUpdateDictModalChildren: React.FC<
       .max(50, '字典名称不能超过50个字符')
       .regex(/^[a-zA-Z0-9_]+$/, '字典名称只能包含字母、数字和下划线'),
     extra: z.string().trim().max(1024, '扩展内容不能超过1024个字符'),
-    description: z.string().trim().max(512, '接口权限不能超过512个字符'),
+    description: z.string().trim().max(256, '描述不能超过256个字符'),
   });
 
   const defaultValues = useMemoizedFn(() => {
@@ -289,8 +289,8 @@ const AddOrUpdateDictModalChildren: React.FC<
               autosize
               minRows={2}
               maxRows={4}
-              description="描述不能超过512个字符"
-              maxLength={512}
+              description="描述不能超过256个字符"
+              maxLength={256}
             />
           )}
         />

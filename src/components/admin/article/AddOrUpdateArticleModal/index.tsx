@@ -41,6 +41,7 @@ const AddOrUpdateArticleModal = forwardRef<AddOrUpdateArticleModalRef>(
       <CommonModal
         title={currentArticle ? '编辑文章' : '添加文章'}
         {...stack.register('AddOrUpdateArticleModal')}
+        fullScreen
       >
         <AddOrUpdateArticleModalChildren
           onClose={() => stack.close('AddOrUpdateArticleModal')}

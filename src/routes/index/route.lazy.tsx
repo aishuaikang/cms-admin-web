@@ -1,6 +1,7 @@
 import { Carousel } from '@mantine/carousel';
 import {
   AspectRatio,
+  Box,
   Button,
   Card,
   Center,
@@ -8,10 +9,10 @@ import {
   Flex,
   Grid,
   Group,
-  Image,
-  List,
+  Image, //   List,
   Paper,
   Space,
+  Stack,
   Text,
   Title,
   useMantineTheme,
@@ -122,8 +123,8 @@ function Index() {
                 </Group>
               </Card.Section>
               <Space h="md" />
-              <List spacing="xs" size="sm" center>
-                <List.Item>
+              <Stack>
+                <Box>
                   <Grid columns={24}>
                     <Grid.Col span={6}>
                       <Center>
@@ -158,8 +159,8 @@ function Index() {
                       </Flex>
                     </Grid.Col>
                   </Grid>
-                </List.Item>
-                <List.Item>
+                </Box>
+                <Box>
                   <Grid columns={24}>
                     <Grid.Col span={6}>
                       <Center>
@@ -194,8 +195,8 @@ function Index() {
                       </Flex>
                     </Grid.Col>
                   </Grid>
-                </List.Item>
-                <List.Item>
+                </Box>
+                <Box>
                   <Grid columns={24}>
                     <Grid.Col span={6}>
                       <Center>
@@ -230,8 +231,8 @@ function Index() {
                       </Flex>
                     </Grid.Col>
                   </Grid>
-                </List.Item>
-              </List>
+                </Box>
+              </Stack>
             </Card>
             <Space h="md" />
             <Card withBorder shadow="sm" radius="md">
@@ -244,8 +245,8 @@ function Index() {
                 </Group>
               </Card.Section>
               <Space h="md" />
-              <List spacing="xs" size="sm" center>
-                <List.Item>
+              <Stack>
+                <Box>
                   <Grid columns={24}>
                     <Grid.Col span={6}>
                       <Center>
@@ -279,8 +280,8 @@ function Index() {
                       </Flex>
                     </Grid.Col>
                   </Grid>
-                </List.Item>
-                <List.Item>
+                </Box>
+                <Box>
                   <Grid columns={24}>
                     <Grid.Col span={6}>
                       <Center>
@@ -314,8 +315,8 @@ function Index() {
                       </Flex>
                     </Grid.Col>
                   </Grid>
-                </List.Item>
-                <List.Item>
+                </Box>
+                <Box>
                   <Grid columns={24}>
                     <Grid.Col span={6}>
                       <Center>
@@ -349,8 +350,8 @@ function Index() {
                       </Flex>
                     </Grid.Col>
                   </Grid>
-                </List.Item>
-                <List.Item>
+                </Box>
+                <Box>
                   <Grid columns={24}>
                     <Grid.Col span={6}>
                       <Center>
@@ -384,8 +385,8 @@ function Index() {
                       </Flex>
                     </Grid.Col>
                   </Grid>
-                </List.Item>
-              </List>
+                </Box>
+              </Stack>
             </Card>
           </Grid.Col>
           <Grid.Col span={8}>
@@ -399,24 +400,22 @@ function Index() {
                 </Group>
               </Card.Section>
               <Space h="md" />
-              <List spacing="xs" size="sm" center>
-                <List.Item>个人廉洁承诺书</List.Item>
-                <List.Item>百灵集团合规管理总则</List.Item>
-                <List.Item>百灵集团合规管理制度</List.Item>
-                <List.Item>中华人民共和国药品管理法</List.Item>
-                <List.Item>医药企业防范商业贿赂风险合规指引</List.Item>
-                <List.Item>医药营销合规评估报告</List.Item>
-                <List.Item>医药企业合规营销服务规范</List.Item>
-                <List.Item>
-                  国务院反垄断委员会关于原料药领域的反垄断指南
-                </List.Item>
-                <List.Item>中央企业合规管理办法</List.Item>
-                <List.Item>医药行业合规管理规范</List.Item>
-                <List.Item>
+              <Stack>
+                <Box>个人廉洁承诺书</Box>
+                <Box>百灵集团合规管理总则</Box>
+                <Box>百灵集团合规管理制度</Box>
+                <Box>中华人民共和国药品管理法</Box>
+                <Box>医药企业防范商业贿赂风险合规指引</Box>
+                <Box>医药营销合规评估报告</Box>
+                <Box>医药企业合规营销服务规范</Box>
+                <Box>国务院反垄断委员会关于原料药领域的反垄断指南</Box>
+                <Box>中央企业合规管理办法</Box>
+                <Box>医药行业合规管理规范</Box>
+                <Box>
                   国务院反垄断反不正当竞争委员会关于药品领域的反垄断指南
-                </List.Item>
-                <List.Item>灵工平台涉税合规发展指引报告</List.Item>
-              </List>
+                </Box>
+                <Box>灵工平台涉税合规发展指引报告</Box>
+              </Stack>
             </Card>
           </Grid.Col>
         </Grid>

@@ -26,8 +26,8 @@ import { createLazyFileRoute, useRouteContext } from '@tanstack/react-router';
 import { useMemoizedFn } from 'ahooks';
 import AddOrUpdateArticleModal, {
   AddOrUpdateArticleModalRef,
-} from '@/components/admin/industry_articles/AddOrUpdateArticleModal';
-import Searchbar from '@/components/admin/industry_articles/Searchbar';
+} from '@/components/admin/article/AddOrUpdateArticleModal';
+import Searchbar from '@/components/admin/article/Searchbar';
 import EmptyComponent from '@/components/EmptyComponent';
 import ErrorComponent from '@/components/ErrorComponent';
 import LoadingComponent from '@/components/LoadingComponent';

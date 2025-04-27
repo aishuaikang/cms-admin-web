@@ -1,6 +1,6 @@
 import { FC, useMemo, useRef, useState } from 'react';
 import { Route as AdminRoute } from '@/routes/admin/route';
-import { Route as IndexRoute } from '@/routes/admin/route';
+import { Route as IndexRoute } from '@/routes/index/route';
 import { useAuth } from '@contexts/auth';
 // import { pixelArt } from '@dicebear/collection';
 // import { createAvatar } from '@dicebear/core';
@@ -151,7 +151,8 @@ const Layout: FC<LayoutProps> = ({ children }) => {
         <Box className="flex items-center gap-4">
           <Group>
             {navs.map((nav) => (
-              <Link key={nav.label} to={nav.to}>
+              <UnstyledButton component={Link} to={nav.to} key={nav.label}>
+                {/* <Link key={nav.label} to={nav.to}> */}
                 {({ isActive }) => (
                   <Group
                     gap="2"
@@ -167,7 +168,8 @@ const Layout: FC<LayoutProps> = ({ children }) => {
                     </Text>
                   </Group>
                 )}
-              </Link>
+                {/* </Link> */}
+              </UnstyledButton>
             ))}
           </Group>
           <LoginModal ref={loginModalRef} />
@@ -214,7 +216,8 @@ const Layout: FC<LayoutProps> = ({ children }) => {
               </Menu.Target>
               <Menu.Dropdown>
                 <Menu.Label>应用</Menu.Label>
-                <Link to={AdminRoute.to} className="block">
+
+                <UnstyledButton component={Link} to={AdminRoute.to}>
                   {({ isActive }) => (
                     <Menu.Item
                       leftSection={<IconSettings size={16} stroke={1.5} />}
@@ -225,7 +228,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
                       管理后台
                     </Menu.Item>
                   )}
-                </Link>
+                </UnstyledButton>
                 <Menu.Divider />
                 <Menu.Item
                   leftSection={<IconLogout size={16} stroke={1.5} />}

@@ -1,14 +1,10 @@
+import { Image } from '@/apis/image/types';
+import { Tag } from '../tag/types';
+
 export enum ArticleStatus {
   草稿,
-  已发布,
+  公开,
 }
-
-// type ArticleStatus string
-
-// const (
-// 	StatusDraft     ArticleStatus = "draft"
-// 	StatusPublished ArticleStatus = "published"
-// )
 
 export interface Article {
   id: string;
@@ -17,6 +13,8 @@ export interface Article {
   content: string;
   status: ArticleStatus;
   category_id: string;
+  images: Image[];
+  tags: Tag[];
   user_id: string;
   created_at: string;
   updated_at: string;
@@ -24,12 +22,17 @@ export interface Article {
 
 export type AddArticleParams = Omit<
   Article,
-  'id' | 'created_at' | 'updated_at' | 'user_id'
+  'id' | 'created_at' | 'updated_at' | 'user_id' | 'tags' | 'images'
 > & {
-  image_ids?: string[];
-  tag_ids?: string[];
+  image_ids: string[] | null;
+  tag_ids: string[] | null;
 };
 
-export type UpdateArticleParams = Partial<AddArticleParams> & {
+export type UpdateArticleParams = Partial<
+  Omit<Article, 'id' | 'created_at' | 'updated_at' | 'user_id' | 'tags'>
+> & {
+  image_ids: string[] | null;
+  tag_ids: string[] | null;
+} & {
   id: Article['id'];
 };

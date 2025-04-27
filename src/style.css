@@ -67,7 +67,7 @@ body,
   @apply transition-all;
 } */
 
-details.docx-thumbnails {
+/* details.docx-thumbnails {
   position: relative;
   background-color: rgb(101, 101, 101);
   border-right: 1px solid black;
@@ -118,4 +118,21 @@ details.docx-thumbnails summary::marker {
   width: 100px;
   box-shadow: 0 0 10px rgb(0 0 0 / 50%);
   margin: 1rem;
+} */
+
+.tiptap {
+  :first-child {
+    margin-top: 0;
+  }
+
+  img {
+    display: block;
+    height: auto;
+    margin: 1.5rem 0;
+    max-width: 100%;
+
+    &.ProseMirror-selectednode {
+      outline: 3px solid var(--purple);
+    }
+  }
 }
