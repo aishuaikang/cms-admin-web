@@ -1,7 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import '@/styles/_keyframe-animations.scss';
-import '@/styles/_variables.scss';
+import '@/styles/index.scss';
 import { AuthProvider, useAuth } from '@contexts/auth';
 import { MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
@@ -14,7 +13,6 @@ import '@mantine/tiptap/styles.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createRouter, RouterProvider } from '@tanstack/react-router';
 import { routeTree } from './routeTree.gen';
-import './style.css';
 
 declare module '@tanstack/react-router' {
   interface Register {

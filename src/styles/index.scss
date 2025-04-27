@@ -1,6 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* 引入scss文件 */
+@import './variables.scss';
+@import './keyframe-animations.scss';
+/* import '@/styles/_keyframe-animations.scss';
+import '@/styles/_variables.scss'; */
+
 /* // fix Tailwind CSS border styles,form Tailwind CSS's preflight */
 /* *,
 ::before,
@@ -27,7 +34,7 @@
 
 /* html,
 body,
-#root {
+#root { 
     height: 100%;
     overscroll-behavior: none;
     overflow: hidden;
@@ -121,18 +128,18 @@ details.docx-thumbnails summary::marker {
 } */
 
 .tiptap {
-  :first-child {
-    margin-top: 0;
-  }
-
-  img {
-    display: block;
-    height: auto;
-    margin: 1.5rem 0;
-    max-width: 100%;
-
-    &.ProseMirror-selectednode {
-      outline: 3px solid var(--purple);
+    :first-child {
+        margin-top: 0;
     }
-  }
+
+    img {
+        display: block;
+        height: auto;
+        margin: 1.5rem 0;
+        max-width: 100%;
+
+        &.ProseMirror-selectednode {
+            outline: 3px solid var(--purple);
+        }
+    }
 }
