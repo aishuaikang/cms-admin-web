@@ -3,8 +3,7 @@
 @tailwind utilities;
 
 /* 引入scss文件 */
-@import './variables.scss';
-@import './keyframe-animations.scss';
+
 /* import '@/styles/_keyframe-animations.scss';
 import '@/styles/_variables.scss'; */
 
@@ -128,18 +127,18 @@ details.docx-thumbnails summary::marker {
 } */
 
 .tiptap {
-    :first-child {
-        margin-top: 0;
-    }
+  :first-child {
+    margin-top: 0;
+  }
 
-    img {
-        display: block;
-        height: auto;
-        margin: 1.5rem 0;
-        max-width: 100%;
+  img {
+    display: block;
+    height: auto;
+    margin: 1.5rem 0;
+    max-width: 100%;
 
-        &.ProseMirror-selectednode {
-            outline: 3px solid var(--purple);
-        }
+    &.ProseMirror-selectednode {
+      outline: 3px solid var(--purple);
     }
+  }
 }

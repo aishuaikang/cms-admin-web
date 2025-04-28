@@ -8,8 +8,7 @@ import {
 } from '@mantine/core';
 import { IconLock, IconUser } from '@tabler/icons-react';
 import { useForm } from '@tanstack/react-form';
-import { useNavigate } from '@tanstack/react-router';
-import { useUpdateEffect } from 'ahooks';
+// import { useNavigate } from '@tanstack/react-router';
 import { z } from 'zod';
 
 export interface LoginModalChildrenProps {
@@ -31,7 +30,7 @@ const LoginModalChildren: React.FC<LoginModalChildrenProps> = ({ onClose }) => {
     // code: z.string().nonempty('验证码不能为空').max(6, '验证码不能超过6个字符'),
   });
 
-  const navigate = useNavigate();
+  //   const navigate = useNavigate();
 
   const formApi = useForm({
     defaultValues: {
@@ -51,17 +50,17 @@ const LoginModalChildren: React.FC<LoginModalChildrenProps> = ({ onClose }) => {
     },
   });
 
-  useUpdateEffect(() => {
-    if (!auth.isAuthenticated) {
-      return;
-    }
-    // 判断是url中是否有redirect参数
+  //   useUpdateEffect(() => {
+  //     if (!auth.isAuthenticated) {
+  //       return;
+  //     }
+  //     // 判断是url中是否有redirect参数
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const redirectUrl = urlParams.get('redirect');
+  //     const urlParams = new URLSearchParams(window.location.search);
+  //     const redirectUrl = urlParams.get('redirect');
 
-    if (redirectUrl) navigate({ to: redirectUrl });
-  }, [auth.isAuthenticated]);
+  //     if (redirectUrl) navigate({ to: redirectUrl });
+  //   }, [auth.isAuthenticated]);
 
   return (
     <>

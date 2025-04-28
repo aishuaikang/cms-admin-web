@@ -5,8 +5,8 @@ export interface Tag {
   name: string;
   description: string;
   articles: Article[];
-  created_at: string;
-  updated_at: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export type AddTagParams = Pick<Tag, 'name' | 'description'>;

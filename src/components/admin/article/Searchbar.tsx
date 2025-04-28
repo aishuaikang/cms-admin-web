@@ -1,3 +1,5 @@
+import { ArticleStatus } from '@/apis/article/types';
+import { getEnumOptions } from '@/utils';
 import {
   Button,
   Grid,
@@ -9,10 +11,12 @@ import {
 } from '@mantine/core';
 import { useForm } from '@tanstack/react-form';
 import { z } from 'zod';
+import CategorySelect from '@/components/CategorySelect';
 
 const rules = z.object({
-  keyword: z.string().max(20, '关键字不能超过20个字符').nullable(),
-  status: z.string().nullable(),
+  title: z.string().trim().max(50, '文章名称不能超过50个字符').optional(),
+  status: z.number().min(0, '状态不能为空').max(1, '状态不能为空').nullable(),
+  categoryId: z.string().trim().nullable(),
 });
 
 export type SearchValue = z.infer<typeof rules>;
@@ -23,16 +27,19 @@ export interface SearchbarProps {
   isLoading?: boolean;
 }
 
+const defaultValues: SearchValue = {
+  title: '',
+  status: null,
+  categoryId: null,
+};
+
 const Searchbar: React.FC<SearchbarProps> = ({
   onSearch,
   onReset,
   isLoading,
 }) => {
   const formApi = useForm({
-    defaultValues: {
-      keyword: null as string | null,
-      status: null as string | null,
-    },
+    defaultValues,
     onSubmit: async ({ value }) => {
       await onSearch(value);
     },
@@ -59,7 +66,7 @@ const Searchbar: React.FC<SearchbarProps> = ({
         <Grid>
           <Grid.Col span={3}>
             <formApi.Field
-              name="keyword"
+              name="title"
               children={({ name, state, handleChange, handleBlur }) => {
                 return (
                   <TextInput
@@ -91,11 +98,10 @@ const Searchbar: React.FC<SearchbarProps> = ({
                 <Select
                   disabled={isLoading}
                   name={name}
-                  value={state.value}
+                  value={state.value !== null ? state.value + '' : null}
                   onBlur={handleBlur}
                   onChange={(value) => {
-                    console.log(value);
-                    handleChange(value ?? '');
+                    handleChange(value !== null ? parseInt(value) : null);
                   }}
                   variant="filled"
                   leftSection={<Text size="sm">状态</Text>}
@@ -103,8 +109,33 @@ const Searchbar: React.FC<SearchbarProps> = ({
                   clearable
                   onClear={() => handleChange(null)}
                   placeholder="请选择状态"
-                  data={[]}
+                  data={getEnumOptions(ArticleStatus).map((item) => ({
+                    value: item.value.toString(),
+                    label: item.label,
+                  }))}
                   error={state.meta.errors[0]?.message}
+                />
+              )}
+            />
+          </Grid.Col>
+          <Grid.Col span={3}>
+            <formApi.Field
+              name="categoryId"
+              children={({ name, state, handleChange, handleBlur }) => (
+                <CategorySelect
+                  variant="filled"
+                  withAsterisk
+                  name={name}
+                  value={state.value}
+                  onBlur={handleBlur}
+                  onChange={(value) => handleChange(value ?? '')}
+                  error={state.meta.errors[0]?.message}
+                  disabled={isLoading}
+                  leftSection={<Text size="sm">分类</Text>}
+                  leftSectionWidth={80}
+                  clearable
+                  onClear={() => handleChange(null)}
+                  placeholder="请选择分类"
                 />
               )}
             />

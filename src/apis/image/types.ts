@@ -1,9 +1,12 @@
+import { Article } from '../article/types';
+import { User } from '../user/types';
+
 export interface Image {
   id: string;
   title: string;
   hash: string;
-  articles: null;
-  users: null;
-  created_at: string;
-  updated_at: string;
+  articles: Article[];
+  users: User[];
+  createdAt: string;
+  updatedAt: string;
 }

@@ -44,9 +44,6 @@ async function requestJson<T>(
       if (json.code === 401) {
         router.navigate({
           to: IndexRoute.to,
-          search: {
-            redirect: router.state.location.href,
-          },
           replace: true,
         });
         setUserinfoStore(null);

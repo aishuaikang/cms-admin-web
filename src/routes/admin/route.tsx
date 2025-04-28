@@ -4,13 +4,10 @@ import NotFoundComponent from '@/components/NotFoundComponent';
 
 export const Route = createFileRoute('/admin')({
   context: () => ({ title: '管理后台' }),
-  beforeLoad: ({ context, location }) => {
+  beforeLoad: ({ context }) => {
     if (!context.auth.isAuthenticated) {
       throw redirect({
         to: IndexRoute.to,
-        search: {
-          redirect: location.href,
-        },
       });
     }
   },

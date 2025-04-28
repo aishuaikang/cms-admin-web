@@ -1,16 +1,23 @@
 import { requestJson } from '@/utils';
 import { queryOptions } from '@tanstack/react-query';
-import { AddArticleParams, Article, UpdateArticleParams } from './types';
+import qs from 'qs';
+import { CommonPage } from '../types';
+import {
+  AddArticleParams,
+  Article,
+  GetArticleListParams,
+  UpdateArticleParams,
+} from './types';
 
 export const ARTICLE_LIST_QUERY_KEY = 'getArticleList';
 
 // 获取新闻列表
-export const getArticleListQueryOptions = () =>
+export const getArticleListQueryOptions = (params: GetArticleListParams) =>
   queryOptions({
-    queryKey: [ARTICLE_LIST_QUERY_KEY],
+    queryKey: [ARTICLE_LIST_QUERY_KEY, params],
     queryFn: async () => {
-      //   const query = qs.stringify(data, { addQueryPrefix: true });
-      return await requestJson<Article[]>(`/admin/article`);
+      const query = qs.stringify(params, { addQueryPrefix: true });
+      return await requestJson<CommonPage<Article>>(`/admin/article${query}`);
     },
   });
 

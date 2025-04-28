@@ -9,9 +9,9 @@ import {
   Button,
   Divider,
   FileButton,
-  Flex,
   Group,
   ScrollArea,
+  Stack,
   Text,
   Title,
 } from '@mantine/core';
@@ -87,7 +87,7 @@ function Image() {
         <Group>
           <Group align="center" style={{ flexWrap: 'wrap' }}>
             {data?.map((image) => (
-              <div key={image.id} style={{ width: 200 }}>
+              <div key={image.id} className="w-[200px] relative group">
                 <img
                   src={
                     import.meta.env.VITE_BASE_API +
@@ -101,37 +101,43 @@ function Image() {
                     boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
                   }}
                 />
-                <Flex align={'center'} justify={'space-between'} mt="xs">
-                  <Text size="sm" mr="xs">
-                    {image.title}
-                  </Text>
-                  <Group align="center">
-                    <Button
-                      size="xs"
-                      color="red"
-                      variant="light"
-                      onClick={() => {
-                        modals.openConfirmModal({
-                          title: '删除图片',
-                          centered: true,
-                          children: (
-                            <Text size="sm">
-                              你确定要删除这个图片吗？这将无法恢复。
-                            </Text>
-                          ),
-                          labels: {
-                            confirm: '删除',
-                            cancel: '取消',
-                          },
-                          confirmProps: { color: 'red' },
-                          onConfirm: () => deleteImageMutation(image.id),
-                        });
-                      }}
-                    >
-                      删除
-                    </Button>
+                <Stack align={'center'} justify={'space-between'} mt="xs">
+                  {/* <Text size="sm">{image.title}</Text> */}
+                  <Group align="center" justify="space-between" w={'100%'}>
+                    <Text size="xs" c="dimmed">
+                      {image.users.length} 个用户使用
+                    </Text>
+                    <Text size="xs" c="dimmed">
+                      {image.articles.length} 篇文章使用
+                    </Text>
                   </Group>
-                </Flex>
+                </Stack>
+
+                <Button
+                  className="!absolute top-2 right-2 !hidden group-hover:!block"
+                  size="xs"
+                  color="red"
+                  //   variant="light"
+                  onClick={() => {
+                    modals.openConfirmModal({
+                      title: '删除图片',
+                      centered: true,
+                      children: (
+                        <Text size="sm">
+                          你确定要删除这个图片吗？这将无法恢复。
+                        </Text>
+                      ),
+                      labels: {
+                        confirm: '删除',
+                        cancel: '取消',
+                      },
+                      confirmProps: { color: 'red' },
+                      onConfirm: () => deleteImageMutation(image.id),
+                    });
+                  }}
+                >
+                  删除
+                </Button>
               </div>
             ))}
           </Group>

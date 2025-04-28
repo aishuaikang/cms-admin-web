@@ -4,13 +4,13 @@ export interface Dict {
   code: string;
   extra: string;
   description: string;
-  parent_id: string | null;
-  created_at: string;
-  updated_at: string;
+  parentId: string | null;
+  createdAt: string;
+  updatedAt: string;
 }
 
-export type AddDictParams = Omit<Dict, 'id' | 'created_at' | 'updated_at'>;
+export type AddDictParams = Omit<Dict, 'id' | 'createdAt' | 'updatedAt'>;
 
-export type UpdateDictParams = Partial<Omit<AddDictParams, 'parent_id'>> & {
+export type UpdateDictParams = Partial<Omit<AddDictParams, 'parentId'>> & {
   id: Dict['id'];
 };

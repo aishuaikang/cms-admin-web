@@ -86,10 +86,10 @@ function Users() {
               <Avatar
                 size={40}
                 src={
-                  user?.image_id
+                  user?.imageId
                     ? import.meta.env.VITE_BASE_API +
                       `/common/image/download/${
-                        user?.image_id
+                        user?.imageId
                       }?${new Date().getTime()}`
                     : undefined
                 }
@@ -100,7 +100,7 @@ function Users() {
                   {user.nickname}
                 </Text>
                 <Text c="dimmed" fz="xs">
-                  {user.is_super ? '超级管理员' : '普通用户'}
+                  {user.isSuper ? '超级管理员' : '普通用户'}
                 </Text>
               </div>
             </Group>

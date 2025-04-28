@@ -239,8 +239,8 @@ function DictConfig() {
       menuMap.set(item.id, item);
     });
     data?.forEach((item) => {
-      if (item.parent_id !== null) {
-        const parentMenu = menuMap.get(item.parent_id);
+      if (item.parentId !== null) {
+        const parentMenu = menuMap.get(item.parentId);
         if (parentMenu) {
           if (!parentMenu.children) {
             parentMenu.children = [];

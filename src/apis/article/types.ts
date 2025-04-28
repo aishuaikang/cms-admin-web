@@ -12,27 +12,35 @@ export interface Article {
   description: string;
   content: string;
   status: ArticleStatus;
-  category_id: string;
+  categoryId: string;
   images: Image[];
   tags: Tag[];
-  user_id: string;
-  created_at: string;
-  updated_at: string;
+  userId: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface GetArticleListParams {
+  page: number;
+  pageSize: number;
+  title?: string;
+  status?: ArticleStatus;
+  categoryId?: string;
 }
 
 export type AddArticleParams = Omit<
   Article,
-  'id' | 'created_at' | 'updated_at' | 'user_id' | 'tags' | 'images'
+  'id' | 'createdAt' | 'updatedAt' | 'userId' | 'tags' | 'images'
 > & {
-  image_ids: string[] | null;
-  tag_ids: string[] | null;
+  imageIds: string[] | null;
+  tagIds: string[] | null;
 };
 
 export type UpdateArticleParams = Partial<
-  Omit<Article, 'id' | 'created_at' | 'updated_at' | 'user_id' | 'tags'>
+  Omit<Article, 'id' | 'createdAt' | 'updatedAt' | 'userId' | 'tags'>
 > & {
-  image_ids: string[] | null;
-  tag_ids: string[] | null;
+  imageIds: string[] | null;
+  tagIds: string[] | null;
 } & {
   id: Article['id'];
 };

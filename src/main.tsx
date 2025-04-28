@@ -14,6 +14,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createRouter, RouterProvider } from '@tanstack/react-router';
 import { routeTree } from './routeTree.gen';
 
+// @import './variables.scss';
+// @import './keyframe-animations.scss';
 declare module '@tanstack/react-router' {
   interface Register {
     router: typeof router;

@@ -87,7 +87,7 @@ const AddOrUpdateDictModalChildren: React.FC<
       } else {
         await addDictMutation({
           ...value,
-          parent_id: currentDict?.id ?? null,
+          parentId: currentDict?.id ?? null,
         });
       }
     },

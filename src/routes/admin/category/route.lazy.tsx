@@ -187,7 +187,6 @@ function Category() {
       {/* <Searchbar
         isLoading={isFetching}
         onSearch={async (value) => {
-          console.log(value);
           setSearchValue(value);
         }}
         onReset={() => {

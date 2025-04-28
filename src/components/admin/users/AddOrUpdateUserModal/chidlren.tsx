@@ -52,7 +52,7 @@ const rules = z.object({
     .nonempty('用户名不能为空')
     .min(2, '用户名不能少于2个字符')
     .max(15, '用户名不能超过15个字符'),
-  image_id: z.string().nullable(),
+  imageId: z.string().nullable(),
 });
 
 // type FormValues = z.infer<typeof rules>;
@@ -69,14 +69,14 @@ const AddOrUpdateUserModalChildren: React.FC<
         username: '',
         password: '',
         phone: '',
-        image_id: null,
+        imageId: null,
       };
     return {
       nickname: currentUser.nickname,
       username: currentUser.username,
       password: '',
       phone: currentUser.phone,
-      image_id: currentUser.image_id,
+      imageId: currentUser.imageId,
     };
   });
 
@@ -91,7 +91,7 @@ const AddOrUpdateUserModalChildren: React.FC<
       } else {
         await addUserMutation({
           ...value,
-          is_super: false,
+          isSuper: false,
         });
       }
     },
@@ -197,7 +197,7 @@ const AddOrUpdateUserModalChildren: React.FC<
         onReset={() => formApi.reset()}
       >
         <formApi.Field
-          name="image_id"
+          name="imageId"
           children={({ state, handleChange }) => (
             <UploadImage value={state.value} onChange={handleChange} />
 

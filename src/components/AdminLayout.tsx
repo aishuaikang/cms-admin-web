@@ -69,13 +69,13 @@ const Layout: FC<LayoutProps> = ({ children }) => {
   const navigate = useNavigate();
 
   const avatarSrc = useMemo(() => {
-    return auth.userinfo?.image_id
+    return auth.userinfo?.imageId
       ? import.meta.env.VITE_BASE_API +
           `/common/image/download/${
-            auth.userinfo?.image_id
+            auth.userinfo?.imageId
           }?${new Date().getTime()}`
       : undefined;
-  }, [auth.userinfo?.image_id]);
+  }, [auth.userinfo?.imageId]);
 
   return (
     <AppShell

@@ -42,4 +42,14 @@ export default defineConfig({
       modernPolyfills: true,
     }),
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `
+          @use "./src/styles/_variables.scss";
+          @use "./src/styles/_keyframe-animations.scss";
+        `,
+      },
+    },
+  },
 });

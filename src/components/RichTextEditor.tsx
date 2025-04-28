@@ -1,3 +1,7 @@
+import { forwardRef, useImperativeHandle } from 'react';
+import { addImageMutationFn } from '@/apis/image';
+import { FileButton } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import {
   getTaskListExtension,
   Link,
@@ -6,9 +10,10 @@ import {
 } from '@mantine/tiptap';
 import {
   IconColorPicker,
-  IconImageInPicture,
-  IconUpload,
+  IconPhotoEdit,
+  IconPhotoPlus,
 } from '@tabler/icons-react';
+import { useMutation } from '@tanstack/react-query';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import { Color } from '@tiptap/extension-color';
 import Dropcursor from '@tiptap/extension-dropcursor';
@@ -21,14 +26,11 @@ import TipTapTaskList from '@tiptap/extension-task-list';
 import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
 import Underline from '@tiptap/extension-underline';
-import { useEditor } from '@tiptap/react';
+import { JSONContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import { useUpdateEffect } from 'ahooks';
 import ts from 'highlight.js/lib/languages/typescript';
 import { createLowlight } from 'lowlight';
 import '@/components/tiptap/tiptap-node/image-node/image-node.scss';
-import { ImageUploadNode } from '@/components/tiptap/tiptap-node/image-upload-node';
-import '@/components/tiptap/tiptap-node/image-upload-node/image-upload-node.scss';
 
 const lowlight = createLowlight();
 
@@ -39,13 +41,19 @@ export interface RichTextEditorProps {
   value: string;
   onChange: (value: string) => void;
 }
+export interface RichTextEditorRef {
+  setContent: (content: string) => void;
+  getText: () => string | undefined;
+  getJson: () => JSONContent | undefined;
+}
 
-const MAX_FILE_SIZE = 1024 * 1024 * 5; // 5MB
-
-export function RichTextEditor({ value, onChange }: RichTextEditorProps) {
+export const RichTextEditor = forwardRef<
+  RichTextEditorRef,
+  RichTextEditorProps
+>(({ value, onChange }, ref) => {
   const editor = useEditor({
     extensions: [
-      StarterKit.configure({ codeBlock: false }),
+      StarterKit.configure({ codeBlock: false, dropcursor: false }),
       Underline,
       Link,
       Superscript,
@@ -64,18 +72,6 @@ export function RichTextEditor({ value, onChange }: RichTextEditorProps) {
       }),
       Image,
       Dropcursor,
-      ImageUploadNode.configure({
-        accept: 'image/*',
-        maxSize: MAX_FILE_SIZE,
-        limit: 3,
-        upload: (file, onProgress, abortSignal) => {
-          console.log('file', file);
-          console.log('onProgress', onProgress);
-          console.log('abortSignal', abortSignal);
-          return Promise.resolve('123');
-        },
-        onError: (error) => console.error('Upload failed:', error),
-      }),
     ],
 
     content: value,
@@ -84,10 +80,19 @@ export function RichTextEditor({ value, onChange }: RichTextEditorProps) {
     },
   });
 
-  useUpdateEffect(() => {
-    if (!editor) return;
-    editor.commands.setContent(value);
-  }, [value]);
+  useImperativeHandle(ref, () => ({
+    setContent: (content: string) => {
+      editor?.commands.setContent(content);
+    },
+    getText: () => editor?.getText(),
+    getJson: () => editor?.getJSON(),
+  }));
+
+  //   useUpdateEffect(() => {
+  //     if (!editor) return;
+  //     console.log('editor', editor);
+  //     editor.commands.clearContent();
+  //   }, [value]);
 
   return (
     <MantineRichTextEditor editor={editor}>
@@ -167,11 +172,6 @@ export function RichTextEditor({ value, onChange }: RichTextEditorProps) {
         </MantineRichTextEditor.ControlsGroup>
 
         <MantineRichTextEditor.ControlsGroup>
-          <MantineRichTextEditor.Undo />
-          <MantineRichTextEditor.Redo />
-        </MantineRichTextEditor.ControlsGroup>
-
-        <MantineRichTextEditor.ControlsGroup>
           <MantineRichTextEditor.CodeBlock />
         </MantineRichTextEditor.ControlsGroup>
 
@@ -179,12 +179,17 @@ export function RichTextEditor({ value, onChange }: RichTextEditorProps) {
           <InsertImageControl />
           <InsertImageUploadControl />
         </MantineRichTextEditor.ControlsGroup>
+
+        <MantineRichTextEditor.ControlsGroup>
+          <MantineRichTextEditor.Undo />
+          <MantineRichTextEditor.Redo />
+        </MantineRichTextEditor.ControlsGroup>
       </MantineRichTextEditor.Toolbar>
 
       <MantineRichTextEditor.Content />
     </MantineRichTextEditor>
   );
-}
+});
 
 function InsertImageControl() {
   const { editor } = useRichTextEditorContext();
@@ -205,27 +210,100 @@ function InsertImageControl() {
       aria-label="插入图片"
       title="插入图片"
     >
-      <IconImageInPicture stroke={1.5} size={16} />
+      <IconPhotoEdit stroke={1.5} size={16} />
     </MantineRichTextEditor.Control>
   );
 }
 
 function InsertImageUploadControl() {
+  //   const ctx = useRouteContext({ from: AdminArticleRoute.to });
+
+  const { mutateAsync: addImageMutation } = useMutation({
+    mutationFn: addImageMutationFn,
+    onMutate: () => {
+      return notifications.show({
+        loading: true,
+        message: '请稍等片刻，正在上传图片',
+        autoClose: false,
+        withCloseButton: false,
+      });
+    },
+    onSuccess: (data, _var, context) => {
+      notifications.update({
+        id: context,
+        color: 'green',
+        message: '上传图片成功',
+        loading: false,
+        autoClose: 2000,
+      });
+
+      const pos = editor?.state.selection.from;
+
+      if (!pos) {
+        return;
+      }
+      console.log('pos', pos, pos + 1);
+      editor
+        ?.chain()
+        .focus()
+        .insertContentAt(
+          pos,
+          data.map((image) => ({
+            type: 'image',
+            attrs: {
+              src: `/api/common/image/download/${image.id}`,
+              alt: image.title,
+              title: image.title,
+            },
+          }))
+        )
+        .run();
+
+      //   ctx.queryClient.invalidateQueries({
+      //     queryKey: [IMAGE_LIST_QUERY_KEY],
+      //   });
+    },
+    onError: (error, _var, context) => {
+      notifications.update({
+        id: context,
+        color: 'red',
+        title: '上传图片失败',
+        message: error.message,
+        loading: false,
+        autoClose: 2000,
+      });
+    },
+  });
+
   const { editor } = useRichTextEditorContext();
-  const addImage = () => {
-    editor?.chain().focus().setImageUploadNode().run();
+
+  const handleFileChange = async (newFile: File) => {
+    const formData = new FormData();
+    formData.append('image', newFile);
+
+    await addImageMutation(formData);
   };
 
   if (!editor) {
     return null;
   }
+
   return (
-    <MantineRichTextEditor.Control
-      onClick={addImage}
-      aria-label="插入上传图片组件"
-      title="插入上传图片组件"
+    <FileButton
+      onChange={(newFile) => {
+        newFile && handleFileChange(newFile);
+      }}
+      accept="image/png,image/jpeg"
     >
-      <IconUpload stroke={1.5} size={16} />
-    </MantineRichTextEditor.Control>
+      {(props) => (
+        <MantineRichTextEditor.Control
+          {...props}
+          aria-label="插入上传图片组件"
+          title="插入上传图片组件"
+        >
+          <IconPhotoPlus stroke={1.5} size={16} />
+        </MantineRichTextEditor.Control>
+      )}
+    </FileButton>
   );
 }

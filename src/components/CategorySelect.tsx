@@ -16,13 +16,10 @@ const CategorySelect: React.FC<SelectProps> = (props) => {
 
   return (
     <Select
-      label="分类"
       data={data?.map((category) => ({
         value: category.id,
         label: category.name,
       }))}
-      description="用于区分文章的分类"
-      placeholder="选择分类"
       {...props}
     />
   );
