@@ -11,9 +11,10 @@ export default defineConfig({
   server: {
     proxy: {
       [devEnv.VITE_BASE_API]: {
-        // target: 'http://10.8.8.20',
-        target: 'http://127.0.0.1:3000',
+        // target: 'http://127.0.0.1:3000',
+        target: 'http://192.168.100.241:3001',
         // rewrite: (path) => path.replace(devEnv.VITE_BASE_API, ''),
+        changeOrigin: true,
       },
       //   [devEnv.VITE_BASE_API + '/account']: {
       //     target: 'http://10.8.8.20:9001',
