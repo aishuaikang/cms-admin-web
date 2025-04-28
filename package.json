@@ -10,7 +10,7 @@
     "lint": "tsc && eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "format": "prettier --write . && bun lint --fix",
     "postinstall": "husky install",
-    "docker:build": "bun run build && docker rmi -f cms-web crpi-wali3s44jxv70u4q.cn-beijing.personal.cr.aliyuncs.com/xiaoia/cms && docker login --username=a2506377990 --password aiziji500 crpi-wali3s44jxv70u4q.cn-beijing.personal.cr.aliyuncs.com && docker build --platform linux/amd64 -t cms-web:latest . && docker tag cms-web:latest crpi-wali3s44jxv70u4q.cn-beijing.personal.cr.aliyuncs.com/xiaoia/cms:latest && docker push crpi-wali3s44jxv70u4q.cn-beijing.personal.cr.aliyuncs.com/xiaoia/cms:latest"
+    "docker:build": "bun run build && docker rmi -f cms-web crpi-wali3s44jxv70u4q.cn-beijing.personal.cr.aliyuncs.com/xiaoia/cms-admin-web && docker login --username=a2506377990 --password aiziji500 crpi-wali3s44jxv70u4q.cn-beijing.personal.cr.aliyuncs.com && docker build --platform linux/amd64 -t cms-web:latest . && docker tag cms-web:latest crpi-wali3s44jxv70u4q.cn-beijing.personal.cr.aliyuncs.com/xiaoia/cms-admin-web:latest && docker push crpi-wali3s44jxv70u4q.cn-beijing.personal.cr.aliyuncs.com/xiaoia/cms-admin-web:latest"
   },
   "dependencies": {
     "@dicebear/collection": "^9.2.2",

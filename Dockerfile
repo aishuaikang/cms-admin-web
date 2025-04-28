@@ -22,8 +22,8 @@ CMD ["nginx", "-g", "daemon off;"]
 
 
 # docker login --username=a2506377990 --password aiziji500 crpi-wali3s44jxv70u4q.cn-beijing.personal.cr.aliyuncs.com
-# docker tag [ImageId] crpi-wali3s44jxv70u4q.cn-beijing.personal.cr.aliyuncs.com/xiaoia/cms:latest
-# docker push crpi-wali3s44jxv70u4q.cn-beijing.personal.cr.aliyuncs.com/xiaoia/cms:latest
+# docker tag [ImageId] crpi-wali3s44jxv70u4q.cn-beijing.personal.cr.aliyuncs.com/xiaoia/cms-admin-web:latest
+# docker push crpi-wali3s44jxv70u4q.cn-beijing.personal.cr.aliyuncs.com/xiaoia/cms-admin-web:latest
 
 
-# docker run -d -p 8080:80 --name cms-web --restart=always crpi-wali3s44jxv70u4q.cn-beijing.personal.cr.aliyuncs.com/xiaoia/cms:latest
+# docker run -d -p 8080:80 --name cms-web --restart=always crpi-wali3s44jxv70u4q.cn-beijing.personal.cr.aliyuncs.com/xiaoia/cms-admin-web:latest
