@@ -12,7 +12,8 @@ export default defineConfig({
     proxy: {
       [devEnv.VITE_BASE_API]: {
         // target: 'http://127.0.0.1:3000',
-        target: 'http://192.168.100.241:3001',
+        // target: 'http://192.168.100.241:3001',
+        target: 'http://127.0.0.1:3000',
         // rewrite: (path) => path.replace(devEnv.VITE_BASE_API, ''),
         changeOrigin: true,
       },

@@ -39,7 +39,7 @@ const AddOrUpdateCategoryModal = forwardRef<AddOrUpdateCategoryModalRef>(
 
     return (
       <CommonModal
-        title={currentCategory ? '修改分类' : '添加添加分类'}
+        title={currentCategory ? '修改分类' : '添加分类'}
         {...stack.register('AddOrUpdateCategoryModal')}
       >
         <AddOrUpdateCategoryModalChildren

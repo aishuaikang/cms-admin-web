@@ -10,14 +10,14 @@ import {
   Button,
   Divider,
   Group,
-  Menu,
   Table,
   Text,
   Title,
+  Tooltip,
 } from '@mantine/core';
 import { modals } from '@mantine/modals';
 import { notifications } from '@mantine/notifications';
-import { IconDots, IconPencil, IconPlus, IconTrash } from '@tabler/icons-react';
+import { IconPencil, IconPlus, IconTrash } from '@tabler/icons-react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { createLazyFileRoute, useRouteContext } from '@tanstack/react-router';
 import { useMemoizedFn } from 'ahooks';
@@ -81,64 +81,41 @@ function Category() {
         <Table.Td miw={300}>{category.description || '-'}</Table.Td>
         <Table.Td w={100}>
           <Group justify="center">
-            {/* <Tooltip label="分配分类">
-              <ActionIcon variant="subtle">
-                <IconPointerShare size={16} stroke={1.5} />
+            <Tooltip label="修改分类">
+              <ActionIcon
+                variant="subtle"
+                onClick={() =>
+                  addOrUpdateCategoryModalRef.current?.open(category)
+                }
+              >
+                <IconPencil size={16} stroke={1.5} />
               </ActionIcon>
-            </Tooltip> */}
-
-            <Menu
-              shadow="md"
-              withOverlay
-              overlayProps={{
-                backgroundOpacity: 0.55,
-                blur: 3,
-              }}
-              withArrow
-              position="bottom-end"
-              withinPortal={false}
-            >
-              <Menu.Target>
-                <ActionIcon variant="subtle" aria-label="更多操作">
-                  <IconDots size={16} stroke={1.5} />
-                </ActionIcon>
-              </Menu.Target>
-
-              <Menu.Dropdown>
-                <Menu.Item
-                  leftSection={<IconPencil size={14} />}
-                  onClick={() =>
-                    addOrUpdateCategoryModalRef.current?.open(category)
-                  }
-                >
-                  修改
-                </Menu.Item>
-                <Menu.Divider />
-                <Menu.Item
-                  color="red"
-                  leftSection={<IconTrash size={14} />}
-                  onClick={() => {
-                    modals.openConfirmModal({
-                      title: '删除分类',
-                      centered: true,
-                      children: (
-                        <Text size="sm">
-                          你确定要删除这个分类吗？这将无法恢复。
-                        </Text>
-                      ),
-                      labels: {
-                        confirm: '删除',
-                        cancel: '取消',
-                      },
-                      confirmProps: { color: 'red' },
-                      onConfirm: () => deleteCategoryMutation(category.id),
-                    });
-                  }}
-                >
-                  删除
-                </Menu.Item>
-              </Menu.Dropdown>
-            </Menu>
+            </Tooltip>
+            <Tooltip label="删除分类">
+              <ActionIcon
+                variant="subtle"
+                color="red"
+                onClick={() => {
+                  modals.openConfirmModal({
+                    title: '删除分类',
+                    centered: true,
+                    children: (
+                      <Text size="sm">
+                        你确定要删除这个分类吗？这将无法恢复。
+                      </Text>
+                    ),
+                    labels: {
+                      confirm: '删除',
+                      cancel: '取消',
+                    },
+                    confirmProps: { color: 'red' },
+                    onConfirm: () => deleteCategoryMutation(category.id),
+                  });
+                }}
+              >
+                <IconTrash size={16} stroke={1.5} />
+              </ActionIcon>
+            </Tooltip>
           </Group>
         </Table.Td>
       </Table.Tr>
