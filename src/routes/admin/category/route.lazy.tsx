@@ -78,7 +78,7 @@ function Category() {
     return data?.map((category) => (
       <Table.Tr key={category.id}>
         <Table.Td miw={200}>{category.name}</Table.Td>
-        <Table.Td miw={300}>{category.description || '-'}</Table.Td>
+        <Table.Td miw={300}>{category.description || '无'}</Table.Td>
         <Table.Td w={100}>
           <Group justify="center">
             <Tooltip label="修改分类">

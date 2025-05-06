@@ -103,12 +103,20 @@ function Image() {
                 />
                 <Stack align={'center'} justify={'space-between'} mt="xs">
                   {/* <Text size="sm">{image.title}</Text> */}
-                  <Group align="center" justify="space-between" w={'100%'}>
+                  <Group
+                    align="center"
+                    justify="space-between"
+                    w={'100%'}
+                    gap={5}
+                  >
                     <Text size="xs" c="dimmed">
                       {image.users.length} 个用户使用
                     </Text>
                     <Text size="xs" c="dimmed">
                       {image.articles.length} 篇文章使用
+                    </Text>
+                    <Text size="xs" c="dimmed">
+                      {image.dicts.length} 个字典使用
                     </Text>
                   </Group>
                 </Stack>

@@ -22,6 +22,7 @@ import { notifications } from '@mantine/notifications';
 import {
   IconChevronDown,
   IconPencil,
+  IconPhotoScan,
   IconPlus,
   IconTrash,
 } from '@tabler/icons-react';
@@ -119,10 +120,19 @@ function RecursiveMenuRows({
                 />
               ) : null}
             </Table.Td>
+            <Table.Td miw={200}>
+              <Group gap={5}>
+                {item.name}
+                {item.imageId ? <IconPhotoScan /> : null}
+              </Group>
+            </Table.Td>
             <Table.Td miw={80}>{item.code}</Table.Td>
-            <Table.Td miw={80}>{item.name}</Table.Td>
-            <Table.Td>{item.extra || '-'}</Table.Td>
-            <Table.Td>{item.description || '-'}</Table.Td>
+            <Table.Td>
+              <Text lineClamp={2} size="sm">
+                {item.extra || '无'}
+              </Text>
+            </Table.Td>
+            <Table.Td miw={100}>{item.description || '无'}</Table.Td>
             <Table.Td w={150}>
               <Group justify="center">
                 <Tooltip label="添加子字典">
@@ -176,8 +186,8 @@ function RecursiveMenuRows({
                   <Table.Thead>
                     <Table.Tr>
                       <Table.Th></Table.Th>
-                      <Table.Th>字典Code</Table.Th>
                       <Table.Th>字典名称</Table.Th>
+                      <Table.Th>字典Code</Table.Th>
                       <Table.Th>字典Extra</Table.Th>
                       <Table.Th>字典描述</Table.Th>
                       <Table.Th>操作</Table.Th>
@@ -254,8 +264,8 @@ function DictConfig() {
           <Table.Thead>
             <Table.Tr>
               <Table.Th></Table.Th>
-              <Table.Th>字典Code</Table.Th>
               <Table.Th>字典名称</Table.Th>
+              <Table.Th>字典Code</Table.Th>
               <Table.Th>字典Extra</Table.Th>
               <Table.Th>字典描述</Table.Th>
               <Table.Th>操作</Table.Th>

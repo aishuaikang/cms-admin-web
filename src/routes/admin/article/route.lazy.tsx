@@ -127,7 +127,7 @@ function IndustryArticles() {
             const category = categoryList?.find(
               (category) => category.id === article.categoryId
             );
-            return category?.name || '-';
+            return category?.name || '无';
           })()}
         </Table.Td>
         <Table.Td w={100} align="center">
