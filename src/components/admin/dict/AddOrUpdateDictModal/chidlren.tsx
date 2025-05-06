@@ -22,6 +22,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useRouteContext } from '@tanstack/react-router';
 import { useMemoizedFn } from 'ahooks';
 import { z } from 'zod';
+import UploadImage from '@/components/UploadImage';
 
 export interface AddOrUpdateDictModalChildrenProps {
   onClose: () => void;
@@ -53,6 +54,7 @@ const AddOrUpdateDictModalChildren: React.FC<
       .max(50, '字典名称不能超过50个字符')
       .regex(/^[a-zA-Z0-9_]+$/, '字典名称只能包含字母、数字和下划线'),
     extra: z.string().trim().max(1024, '扩展内容不能超过1024个字符'),
+    imageId: z.string().nullable(),
     description: z.string().trim().max(256, '描述不能超过256个字符'),
   });
 
@@ -64,6 +66,7 @@ const AddOrUpdateDictModalChildren: React.FC<
         code: currentDict.code,
         extra: currentDict.extra,
         description: currentDict.description,
+        imageId: currentDict.imageId,
       };
     }
 
@@ -72,6 +75,7 @@ const AddOrUpdateDictModalChildren: React.FC<
       code: '',
       extra: '',
       description: '',
+      imageId: null,
     };
   });
 
@@ -266,6 +270,33 @@ const AddOrUpdateDictModalChildren: React.FC<
               description="Extra不能超过1024个字符"
               maxLength={1024}
             />
+          )}
+        />
+        <formApi.Field
+          name="imageId"
+          children={({ state, handleChange }) => (
+            <UploadImage
+              type="image"
+              value={state.value}
+              onChange={handleChange}
+            />
+
+            // <TextInput
+            //   label="头像"
+            //   variant="filled"
+            //   name={name}
+            //   value={state.value}
+            //   onBlur={handleBlur}
+            //   onChange={(e) => handleChange(e.target.value)}
+            //   error={state.meta.errors[0]?.message}
+            //   rightSection={
+            //     state.value !== '' ? (
+            //       <Input.ClearButton onClick={() => handleChange('')} />
+            //     ) : undefined
+            //   }
+            //   rightSectionPointerEvents="auto"
+            //   placeholder="头像ID"
+            // />
           )}
         />
         <formApi.Field

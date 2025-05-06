@@ -12,7 +12,6 @@ import {
   Button,
   Divider,
   Group,
-  Menu,
   Table,
   Text,
   Title,
@@ -22,7 +21,6 @@ import { modals } from '@mantine/modals';
 import { notifications } from '@mantine/notifications';
 import {
   IconChevronDown,
-  IconDots,
   IconPencil,
   IconPlus,
   IconTrash,
@@ -123,9 +121,9 @@ function RecursiveMenuRows({
             </Table.Td>
             <Table.Td miw={80}>{item.code}</Table.Td>
             <Table.Td miw={80}>{item.name}</Table.Td>
-            <Table.Td>{item.extra}</Table.Td>
+            <Table.Td>{item.extra || '-'}</Table.Td>
             <Table.Td>{item.description || '-'}</Table.Td>
-            <Table.Td w={100}>
+            <Table.Td w={150}>
               <Group justify="center">
                 <Tooltip label="添加子字典">
                   <ActionIcon
@@ -135,57 +133,39 @@ function RecursiveMenuRows({
                     <IconPlus size={16} stroke={1.5} />
                   </ActionIcon>
                 </Tooltip>
-                <Menu
-                  shadow="md"
-                  withOverlay
-                  overlayProps={{
-                    backgroundOpacity: 0.55,
-                    blur: 3,
-                  }}
-                  withArrow
-                  position="bottom-end"
-                  withinPortal={false}
-                >
-                  <Menu.Target>
-                    <ActionIcon variant="subtle" aria-label="更多操作">
-                      <IconDots size={16} stroke={1.5} />
-                    </ActionIcon>
-                  </Menu.Target>
-
-                  <Menu.Dropdown>
-                    <Menu.Label>更多操作</Menu.Label>
-                    <Menu.Item
-                      leftSection={<IconPencil size={14} />}
-                      onClick={() => onUpdateMenu(item)}
-                    >
-                      修改
-                    </Menu.Item>
-                    <Menu.Divider />
-                    <Menu.Item
-                      color="red"
-                      leftSection={<IconTrash size={14} />}
-                      onClick={() => {
-                        modals.openConfirmModal({
-                          title: '删除字典',
-                          centered: true,
-                          children: (
-                            <Text size="sm">
-                              你确定要删除这个字典吗？这将无法恢复。
-                            </Text>
-                          ),
-                          labels: {
-                            confirm: '删除',
-                            cancel: '取消',
-                          },
-                          confirmProps: { color: 'red' },
-                          onConfirm: () => deleteMenuMutation(item.id),
-                        });
-                      }}
-                    >
-                      删除
-                    </Menu.Item>
-                  </Menu.Dropdown>
-                </Menu>
+                <Tooltip label="修改字典">
+                  <ActionIcon
+                    variant="subtle"
+                    onClick={() => onUpdateMenu(item)}
+                  >
+                    <IconPencil size={16} stroke={1.5} />
+                  </ActionIcon>
+                </Tooltip>
+                <Tooltip label="删除字典">
+                  <ActionIcon
+                    variant="subtle"
+                    color="red"
+                    onClick={() => {
+                      modals.openConfirmModal({
+                        title: '删除字典',
+                        centered: true,
+                        children: (
+                          <Text size="sm">
+                            你确定要删除这个字典吗？这将无法恢复。
+                          </Text>
+                        ),
+                        labels: {
+                          confirm: '删除',
+                          cancel: '取消',
+                        },
+                        confirmProps: { color: 'red' },
+                        onConfirm: () => deleteMenuMutation(item.id),
+                      });
+                    }}
+                  >
+                    <IconTrash size={16} stroke={1.5} />
+                  </ActionIcon>
+                </Tooltip>
               </Group>
             </Table.Td>
           </Table.Tr>

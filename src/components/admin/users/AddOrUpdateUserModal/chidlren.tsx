@@ -199,7 +199,11 @@ const AddOrUpdateUserModalChildren: React.FC<
         <formApi.Field
           name="imageId"
           children={({ state, handleChange }) => (
-            <UploadImage value={state.value} onChange={handleChange} />
+            <UploadImage
+              type="avatar"
+              value={state.value}
+              onChange={handleChange}
+            />
 
             // <TextInput
             //   label="头像"

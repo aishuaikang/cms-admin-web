@@ -1,13 +1,14 @@
 import { addImageMutationFn } from '@/apis/image';
-import { Avatar, Button, FileButton, Group, Stack } from '@mantine/core';
+import { Avatar, Button, FileButton, Group, Image, Stack } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useMutation } from '@tanstack/react-query';
 
 export interface UploadImageProps {
+  type: 'avatar' | 'image';
   value: string | null;
   onChange: (value: string | null) => void;
 }
-const UploadImage: React.FC<UploadImageProps> = ({ value, onChange }) => {
+const UploadImage: React.FC<UploadImageProps> = ({ type, value, onChange }) => {
   const { mutateAsync: addImageMutation } = useMutation({
     mutationFn: addImageMutationFn,
     onMutate: () => {
@@ -51,23 +52,38 @@ const UploadImage: React.FC<UploadImageProps> = ({ value, onChange }) => {
   return (
     <Stack>
       <Group justify="center">
-        <Avatar
-          size={80}
-          src={
-            value
-              ? import.meta.env.VITE_BASE_API +
-                `/common/image/download/${value}?${new Date().getTime()}`
-              : undefined
-          }
-          radius={40}
-        />
+        {type === 'avatar' ? (
+          <Avatar
+            size={80}
+            src={
+              value
+                ? import.meta.env.VITE_BASE_API +
+                  `/common/image/download/${value}?${new Date().getTime()}`
+                : undefined
+            }
+            radius={40}
+          />
+        ) : (
+          <Image
+            radius="md"
+            src={
+              value
+                ? import.meta.env.VITE_BASE_API +
+                  `/common/image/download/${value}?${new Date().getTime()}`
+                : undefined
+            }
+            fallbackSrc="https://placehold.co/600x400?text=Image"
+          />
+        )}
+
+        {/*  */}
       </Group>
       <Group justify="center">
         <FileButton
           onChange={(newFile) => {
             newFile && handleFileChange(newFile);
           }}
-          accept="image/png,image/jpeg"
+          accept="image/*"
         >
           {(props) => <Button {...props}>上传</Button>}
         </FileButton>
