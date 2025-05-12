@@ -10,6 +10,7 @@ import {
   Button,
   Input,
   LoadingOverlay,
+  NumberInput,
   Textarea,
   TextInput,
 } from '@mantine/core';
@@ -40,6 +41,7 @@ const rules = z.object({
     .min(2, '别名不能少于2个字符')
     .max(15, '别名不能超过15个字符')
     .regex(/^[a-zA-Z_]+$/, '别名只能包含字母和下划线'),
+  sort: z.number(),
   description: z.string().trim().max(256, '描述不能超过256个字符'),
 });
 
@@ -53,11 +55,13 @@ const AddOrUpdateCategoryModalChildren: React.FC<
       return {
         name: '',
         alias: '',
+        sort: 0,
         description: '',
       };
     return {
       name: currentCategory.name,
       alias: currentCategory.alias,
+      sort: currentCategory.sort,
       description: currentCategory.description,
     };
   });
@@ -224,6 +228,35 @@ const AddOrUpdateCategoryModalChildren: React.FC<
                 rightSectionPointerEvents="auto"
                 placeholder="news_center"
                 description="不能超过15个字符，只能包含字母和下划线"
+              />
+            );
+          }}
+        />
+
+        <formApi.Field
+          name="sort"
+          children={({ name, state, handleChange, handleBlur }) => {
+            return (
+              <NumberInput
+                withAsterisk
+                label="排序"
+                variant="filled"
+                name={name}
+                value={state.value}
+                onBlur={handleBlur}
+                onChange={(value) => {
+                  if (Number.isInteger(value)) handleChange(value as number);
+                }}
+                error={state.meta.errors[0]?.message}
+                // rightSection={
+                //   state.value !== '' ? (
+                //     <Input.ClearButton onClick={() => handleChange('')} />
+                //   ) : undefined
+                // }
+                // rightSectionPointerEvents="auto"
+                placeholder="0"
+                description="不能超过15个字符，只能包含字母和下划线"
+                min={0}
               />
             );
           }}

@@ -78,6 +78,8 @@ function Category() {
     return data?.map((category) => (
       <Table.Tr key={category.id}>
         <Table.Td miw={200}>{category.name}</Table.Td>
+        <Table.Td miw={300}>{category.alias}</Table.Td>
+        <Table.Td miw={300}>{category.sort}</Table.Td>
         <Table.Td miw={300}>{category.description || '无'}</Table.Td>
         <Table.Td w={100}>
           <Group justify="center">
@@ -147,6 +149,8 @@ function Category() {
           <Table.Thead>
             <Table.Tr>
               <Table.Th>名称</Table.Th>
+              <Table.Th>别名</Table.Th>
+              <Table.Th>排序</Table.Th>
               <Table.Th>描述</Table.Th>
               <Table.Th>操作</Table.Th>
             </Table.Tr>

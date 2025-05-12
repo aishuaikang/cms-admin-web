@@ -41,15 +41,15 @@ const rules = z.object({
     .trim()
     .nonempty('标题不能为空')
     .min(2, '标题不能少于2个字符')
-    .max(50, '文章名称不能超过50个字符')
-    .regex(/^[\u4e00-\u9fa5a-zA-Z0-9_]+$/, '禁止使用特殊字符'),
+    .max(50, '文章名称不能超过50个字符'),
+  // .regex(/^[\u4e00-\u9fa5a-zA-Z0-9_]+$/, '禁止使用特殊字符'),
 
   description: z
     .string()
     .trim()
     .nonempty('描述不能为空')
     .min(2, '描述不能少于2个字符')
-    .regex(/^[\u4e00-\u9fa5a-zA-Z0-9_]+$/, '禁止使用特殊字符')
+    // .regex(/^[\u4e00-\u9fa5a-zA-Z0-9_]+$/, '禁止使用特殊字符')
     .max(256, '描述不能超过256个字符'),
   content: z.string().nonempty('内容不能为空'),
   categoryId: z.string().trim().nonempty('分类不能为空'),
@@ -273,7 +273,7 @@ const AddOrUpdateArticleModalChildren: React.FC<
                 }
                 rightSectionPointerEvents="auto"
                 placeholder="标题"
-                description="不能超过50个字符，禁止使用特殊字符"
+                description="不能超过50个字符"
               />
             );
           }}

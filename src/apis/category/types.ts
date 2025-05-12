@@ -2,6 +2,7 @@ export interface Category {
   id: string;
   name: string;
   alias: string;
+  sort: number;
   description: string;
   createdAt: string;
   updatedAt: string;
