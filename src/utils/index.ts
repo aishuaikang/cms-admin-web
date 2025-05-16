@@ -26,10 +26,13 @@ async function requestJson<T>(
   const token = userinfoStore.state?.token;
   if (token) Reflect.set(headers, 'Authorization', `Bearer ${token}`);
 
-  const response = await fetch(`${import.meta.env.VITE_BASE_API}${url}`, {
-    ...init,
-    headers: new Headers(headers),
-  });
+  const response = await fetch(
+    `${import.meta.env.VITE_BASE_PATH}${import.meta.env.VITE_BASE_API}${url}`,
+    {
+      ...init,
+      headers: new Headers(headers),
+    }
+  );
 
   if (!response.ok) {
     nprogress.complete();
