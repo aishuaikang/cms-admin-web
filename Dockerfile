@@ -27,3 +27,5 @@ CMD ["nginx", "-g", "daemon off;"]
 
 
 # docker run -d -p 8080:80 --name cms-admin-web --restart=always crpi-wali3s44jxv70u4q.cn-beijing.personal.cr.aliyuncs.com/xiaoia/cms-admin-web:latest
+
+# docker cp ./nginx_prod.conf cms-admin-web:/etc/nginx/conf.d/default.conf
