@@ -31,6 +31,7 @@ const queryClient = new QueryClient({
 });
 
 export const router = createRouter({
+  basepath: import.meta.env.VITE_BASE_PATH,
   routeTree,
   context: {
     queryClient,

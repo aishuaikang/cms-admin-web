@@ -8,7 +8,7 @@ import react from '@vitejs/plugin-react-swc';
 const devEnv = loadEnv('development', './');
 
 export default defineConfig({
-  base: './',
+  base: devEnv.VITE_BASE_PATH,
   server: {
     proxy: {
       [devEnv.VITE_BASE_API]: {
